@@ -1,0 +1,3 @@
+[submodule "drivers/dw1000"]
+	path = drivers/dw1000
+	url = https://totalkrill@github.com/korken89/KrilleDevelop.git

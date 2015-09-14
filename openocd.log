@@ -8,7 +8,7 @@ Info : Unable to match requested speed 2000 kHz, using 1800 kHz
 Info : clock speed 1800 kHz
 Info : STLINK v2 JTAG v24 API v2 SWIM v4 VID 0x0483 PID 0x3748
 Info : using stlink api v2
-Info : Target voltage: 3.194256
+Info : Target voltage: 3.195822
 Info : stm32f4x.cpu: hardware has 6 breakpoints, 4 watchpoints
 Info : accepting 'gdb' connection from pipe
 Info : device id = 0x10036413

@@ -80,10 +80,10 @@
 #define GPIOB_ENGINE_PWM1           9
 #define GPIOB_SENSORS_SCL           10
 #define GPIOB_SENSORS_SDA           11
-#define GPIOB_CAN_RX                12
-#define GPIOB_CAN_TX                13
-#define GPIOB_CONTROL_IN2           14
-#define GPIOB_CONTROL_IN3           15
+#define GPIOB_EEPROM_CS                12
+#define GPIOB_EEPROM_SCK                13
+#define GPIOB_EEPROM_MISO           14
+#define GPIOB_EEPROM_MOSI           15
 
 #define GPIOC_LED_ERR               0
 #define GPIOC_LED_USR               1
@@ -381,10 +381,10 @@
                             PIN_MODE_ALTERNATE(GPIOB_ENGINE_PWM1) |  \
                             PIN_MODE_ALTERNATE(GPIOB_SENSORS_SCL) |  \
                             PIN_MODE_ALTERNATE(GPIOB_SENSORS_SDA) |  \
-                            PIN_MODE_ALTERNATE(GPIOB_CAN_RX) |       \
-                            PIN_MODE_ALTERNATE(GPIOB_CAN_TX) |       \
-                            PIN_MODE_ALTERNATE(GPIOB_CONTROL_IN2) |  \
-                            PIN_MODE_ALTERNATE(GPIOB_CONTROL_IN3))
+                            PIN_MODE_OUTPUT(GPIOB_EEPROM_CS) |       \
+                            PIN_MODE_ALTERNATE(GPIOB_EEPROM_SCK) |       \
+                            PIN_MODE_ALTERNATE(GPIOB_EEPROM_MISO) |  \
+                            PIN_MODE_ALTERNATE(GPIOB_EEPROM_MOSI))
 
 #define VAL_GPIOB_OTYPER   (PIN_OTYPE_PUSHPULL(GPIOB_CONTROL_IN5) |  \
                             PIN_OTYPE_PUSHPULL(GPIOB_CONTROL_IN4) |  \
@@ -398,10 +398,10 @@
                             PIN_OTYPE_PUSHPULL(GPIOB_ENGINE_PWM1) |  \
                             PIN_OTYPE_OPENDRAIN(GPIOB_SENSORS_SCL) | \
                             PIN_OTYPE_OPENDRAIN(GPIOB_SENSORS_SDA) | \
-                            PIN_OTYPE_PUSHPULL(GPIOB_CAN_RX) |       \
-                            PIN_OTYPE_PUSHPULL(GPIOB_CAN_TX) |       \
-                            PIN_OTYPE_PUSHPULL(GPIOB_CONTROL_IN2) |  \
-                            PIN_OTYPE_PUSHPULL(GPIOB_CONTROL_IN3))
+                            PIN_OTYPE_PUSHPULL(GPIOB_EEPROM_CS) |       \
+                            PIN_OTYPE_PUSHPULL(GPIOB_EEPROM_SCK) |       \
+                            PIN_OTYPE_PUSHPULL(GPIOB_EEPROM_MISO) |  \
+                            PIN_OTYPE_PUSHPULL(GPIOB_EEPROM_MOSI))
 
 #define VAL_GPIOB_OSPEEDR  (PIN_OSPEED_100M(GPIOB_CONTROL_IN5) |     \
                             PIN_OSPEED_100M(GPIOB_CONTROL_IN4) |     \
@@ -415,10 +415,10 @@
                             PIN_OSPEED_2M(GPIOB_ENGINE_PWM1) |       \
                             PIN_OSPEED_2M(GPIOB_SENSORS_SCL) |       \
                             PIN_OSPEED_2M(GPIOB_SENSORS_SDA) |       \
-                            PIN_OSPEED_25M(GPIOB_CAN_RX) |           \
-                            PIN_OSPEED_25M(GPIOB_CAN_TX) |           \
-                            PIN_OSPEED_100M(GPIOB_CONTROL_IN2) |     \
-                            PIN_OSPEED_100M(GPIOB_CONTROL_IN3))
+                            PIN_OSPEED_25M(GPIOB_EEPROM_CS) |           \
+                            PIN_OSPEED_25M(GPIOB_EEPROM_SCK) |           \
+                            PIN_OSPEED_100M(GPIOB_EEPROM_MISO) |     \
+                            PIN_OSPEED_100M(GPIOB_EEPROM_MOSI))
 
 #define VAL_GPIOB_PUPDR    (PIN_PUPDR_PULLDOWN(GPIOB_CONTROL_IN5) |  \
                             PIN_PUPDR_PULLDOWN(GPIOB_CONTROL_IN4) |  \
@@ -432,10 +432,10 @@
                             PIN_PUPDR_PULLUP(GPIOB_ENGINE_PWM1) |    \
                             PIN_PUPDR_PULLUP(GPIOB_SENSORS_SCL) |    \
                             PIN_PUPDR_PULLUP(GPIOB_SENSORS_SDA) |    \
-                            PIN_PUPDR_PULLUP(GPIOB_CAN_RX) |         \
-                            PIN_PUPDR_PULLUP(GPIOB_CAN_TX) |         \
-                            PIN_PUPDR_PULLDOWN(GPIOB_CONTROL_IN2) |  \
-                            PIN_PUPDR_PULLDOWN(GPIOB_CONTROL_IN3))
+                            PIN_PUPDR_PULLUP(GPIOB_EEPROM_CS) |         \
+                            PIN_PUPDR_PULLUP(GPIOB_EEPROM_SCK) |         \
+                            PIN_PUPDR_PULLDOWN(GPIOB_EEPROM_MISO) |  \
+                            PIN_PUPDR_PULLDOWN(GPIOB_EEPROM_MOSI))
 
 #define VAL_GPIOB_ODR      (PIN_ODR_HIGH(GPIOB_CONTROL_IN5) |        \
                             PIN_ODR_HIGH(GPIOB_CONTROL_IN4) |        \
@@ -449,10 +449,10 @@
                             PIN_ODR_HIGH(GPIOB_ENGINE_PWM1) |        \
                             PIN_ODR_HIGH(GPIOB_SENSORS_SCL) |        \
                             PIN_ODR_HIGH(GPIOB_SENSORS_SDA) |        \
-                            PIN_ODR_HIGH(GPIOB_CAN_RX) |             \
-                            PIN_ODR_HIGH(GPIOB_CAN_TX) |             \
-                            PIN_ODR_HIGH(GPIOB_CONTROL_IN2) |        \
-                            PIN_ODR_HIGH(GPIOB_CONTROL_IN3))
+                            PIN_ODR_HIGH(GPIOB_EEPROM_CS) |             \
+                            PIN_ODR_HIGH(GPIOB_EEPROM_SCK) |             \
+                            PIN_ODR_HIGH(GPIOB_EEPROM_MISO) |        \
+                            PIN_ODR_HIGH(GPIOB_EEPROM_MOSI))
 
 #define VAL_GPIOB_AFRL     (PIN_AFIO_AF(GPIOB_CONTROL_IN5, 2) |      \
                             PIN_AFIO_AF(GPIOB_CONTROL_IN4, 2) |      \
@@ -467,10 +467,10 @@
                             PIN_AFIO_AF(GPIOB_ENGINE_PWM1, 2) |      \
                             PIN_AFIO_AF(GPIOB_SENSORS_SCL, 4) |      \
                             PIN_AFIO_AF(GPIOB_SENSORS_SDA, 4) |      \
-                            PIN_AFIO_AF(GPIOB_CAN_RX, 9) |           \
-                            PIN_AFIO_AF(GPIOB_CAN_TX, 9) |           \
-                            PIN_AFIO_AF(GPIOB_CONTROL_IN2, 9) |      \
-                            PIN_AFIO_AF(GPIOB_CONTROL_IN3, 9))
+                            PIN_AFIO_AF(GPIOB_EEPROM_CS, 0) |           \
+                            PIN_AFIO_AF(GPIOB_EEPROM_SCK, 5) |           \
+                            PIN_AFIO_AF(GPIOB_EEPROM_MISO, 5) |      \
+                            PIN_AFIO_AF(GPIOB_EEPROM_MOSI, 5))
 
 /*
  * GPIOC setup:

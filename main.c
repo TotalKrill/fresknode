@@ -9,6 +9,7 @@
 #include "exti.h"
 #include "dw1000_ranging.h"
 #include "timer.h"
+#include "eeprom.h"
 
 
 #include "chprintf.h"
@@ -64,6 +65,10 @@ int main(void)
 
     // enable usb
     usbstartup();
+    eeprom_init();
+    uint8_t uid[6] = {0,0,0,0,0,0};
+
+    eeprom_read(EEPROM_UID_ADDRESS, (uint8_t *)uid, 6);
 
     //enable debug print thread
     vInitDebugPrint((BaseSequentialStream *) &SDU1);
@@ -135,12 +140,19 @@ int main(void)
     }
 
     int per_loop =0;
-    uint8_t sleep =20;
+    uint8_t sleep =2000;
     while(1)
     {
         //palTogglePad(GPIOC, GPIOC_PIN8);
         chThdSleepMilliseconds(sleep);
         dw1000_shortaddr_t dst;
+        printf("uid: 0x%2x,0x%2x, 0x%2x, 0x%2x, 0x%2x, 0x%2x \n\r",
+                uid[0],
+                uid[1],
+                uid[2],
+                uid[3],
+                uid[4],
+                uid[5]);
 
         if(sender){
             dst.u16 = 0xBEEF;

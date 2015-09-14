@@ -361,6 +361,13 @@ DW1000_TX_PWR_MAX	drivers/dw1000/dw1000_reg.h	315;"	d
 DW1000_TX_PWR_MAX_ALL	drivers/dw1000/dw1000_reg.h	316;"	d
 DW1000_UNINITIALIZED	drivers/dw1000/dw1000.h	/^    DW1000_UNINITIALIZED,$/;"	e	enum:__anon10
 DW1000_US_TO_TIME	drivers/dw1000/dw1000_ranging.h	84;"	d
+EEPROM_H_	drivers/eeprom/eeprom.h	9;"	d
+EEPROM_SPI_BUS	drivers/eeprom/eeprom.h	21;"	d
+EEPROM_SPI_CS	drivers/eeprom/eeprom.h	16;"	d
+EEPROM_SPI_MISO	drivers/eeprom/eeprom.h	18;"	d
+EEPROM_SPI_MOSI	drivers/eeprom/eeprom.h	19;"	d
+EEPROM_SPI_PORT	drivers/eeprom/eeprom.h	14;"	d
+EEPROM_SPI_SCK	drivers/eeprom/eeprom.h	17;"	d
 EICUConfig	drivers/eicu/lld/eicu_lld.h	/^} EICUConfig;$/;"	t	typeref:struct:__anon34
 EICUD1	drivers/eicu/lld/eicu_lld.c	/^EICUDriver EICUD1;$/;"	v
 EICUD12	drivers/eicu/lld/eicu_lld.c	/^EICUDriver EICUD12;$/;"	v
@@ -448,12 +455,12 @@ GPIOA_RF_SEL	board/board.h	58;"	d
 GPIOA_SWCLK	board/board.h	68;"	d
 GPIOA_SWDIO	board/board.h	67;"	d
 GPIOA_VBUS_FS	board/board.h	63;"	d
-GPIOB_CAN_RX	board/board.h	83;"	d
-GPIOB_CAN_TX	board/board.h	84;"	d
-GPIOB_CONTROL_IN2	board/board.h	85;"	d
-GPIOB_CONTROL_IN3	board/board.h	86;"	d
 GPIOB_CONTROL_IN4	board/board.h	72;"	d
 GPIOB_CONTROL_IN5	board/board.h	71;"	d
+GPIOB_EEPROM_CS	board/board.h	83;"	d
+GPIOB_EEPROM_MISO	board/board.h	85;"	d
+GPIOB_EEPROM_MOSI	board/board.h	86;"	d
+GPIOB_EEPROM_SCK	board/board.h	84;"	d
 GPIOB_ENGINE_PWM1	board/board.h	80;"	d
 GPIOB_ENGINE_PWM2	board/board.h	79;"	d
 GPIOB_ENGINE_PWM3	board/board.h	78;"	d
@@ -1187,6 +1194,12 @@ dw1000_write_64bit	drivers/dw1000/dw1000_lld.c	/^inline void dw1000_write_64bit(
 dw1000_write_8bit	drivers/dw1000/dw1000_lld.c	/^inline void dw1000_write_8bit($/;"	f
 dw1000_write_config	drivers/dw1000/dw1000_lld.c	/^void dw1000_write_config(dw1000_hal_t *hal, dw1000_conf_t *conf){$/;"	f
 dw1000_write_register	drivers/dw1000/dw1000_lld.c	/^void dw1000_write_register($/;"	f
+eeprom_init	drivers/eeprom/eeprom.c	/^void eeprom_init(void){$/;"	f
+eeprom_read	drivers/eeprom/eeprom.c	/^void eeprom_read(uint8_t address, uint8_t *data, uint32_t length){$/;"	f
+eeprom_select	drivers/eeprom/eeprom.c	/^void eeprom_select(void){$/;"	f
+eeprom_spicfg	drivers/eeprom/eeprom.h	/^static const SPIConfig eeprom_spicfg = {$/;"	v
+eeprom_unselect	drivers/eeprom/eeprom.c	/^void eeprom_unselect(void){$/;"	f
+eeprom_write	drivers/eeprom/eeprom.c	/^void eeprom_write(uint8_t address,  uint8_t *data, uint32_t length){$/;"	f
 eicuDisable	drivers/eicu/eicu.c	/^void eicuDisable(EICUDriver *eicup) {$/;"	f
 eicuDisableI	drivers/eicu/eicu.h	103;"	d
 eicuEnable	drivers/eicu/eicu.c	/^void eicuEnable(EICUDriver *eicup) {$/;"	f

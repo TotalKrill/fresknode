@@ -66,6 +66,15 @@ void get_euid(void){
     devid.u8[7] = uid[7];
 }
 
+void HardFault_Handler(void){
+    while(1){
+   palTogglePad(GPIOC, GPIOC_LED1);
+   palTogglePad(GPIOC, GPIOC_LED2);
+   palTogglePad(GPIOC, GPIOC_LED3);
+
+   }
+}
+
 int main(void)
 {
     /*
@@ -87,7 +96,7 @@ int main(void)
     vInitDebugPrint((BaseSequentialStream *) &SDU1);
 
     palClearPad(GPIOC, GPIOC_DW_RST);
-    chThdSleepMilliseconds(20000);
+    chThdSleepMilliseconds(20);
     palSetPad(GPIOC, GPIOC_DW_RST);
     //
     //enable interrupt

@@ -5,5 +5,6 @@
 
 void extcb1(EXTDriver *extp, expchannel_t channel);
 void start_thd(void);
+void start_interrupt_handler(void );
 
 #endif

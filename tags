@@ -8,8 +8,12 @@ ACPPSRC	Makefile	/^ACPPSRC =$/;"	m
 ACSRC	Makefile	/^ACSRC =$/;"	m
 ADC_USE_MUTUAL_EXCLUSION	halconf.h	183;"	d
 ADC_USE_WAIT	halconf.h	175;"	d
-ADRIVERSINC	drivers/drivers.mk	/^ADRIVERSINC = $(EICUINC) $(DW1000INC)$/;"	m
-ADRIVERSSRC	drivers/drivers.mk	/^ADRIVERSSRC = $(EICUSRC) $(DW1000SRC)$/;"	m
+ADRIVERSINC	drivers/drivers.mk	/^ADRIVERSINC = $(EICUINC) $(DW1000INC) $(EEPROMINC)$/;"	m
+ADRIVERSSRC	drivers/drivers.mk	/^ADRIVERSSRC = $(EICUSRC) $(DW1000SRC) $(EEPROMSRC)$/;"	m
+ANCHOR0	drivers/dw1000/fulhacket.h	/^    ANCHOR0,$/;"	e	enum:__anon29
+ANCHOR1	drivers/dw1000/fulhacket.h	/^    ANCHOR1,$/;"	e	enum:__anon29
+ANCHOR2	drivers/dw1000/fulhacket.h	/^    ANCHOR2,$/;"	e	enum:__anon29
+ANCHOR3	drivers/dw1000/fulhacket.h	/^    ANCHOR3,$/;"	e	enum:__anon29
 AOPT	Makefile	/^AOPT =$/;"	m
 AS	Makefile	/^AS   = $(TRGT)gcc -x assembler-with-cpp$/;"	m
 ASMSRC	Makefile	/^ASMSRC = $(STARTUPASM) $(PORTASM) $(OSALASM)$/;"	m
@@ -92,14 +96,15 @@ DATE	modules/version_information/inc/version_information.h	33;"	d
 DBG_PRINT_INC	modules/dbgprint/debugprint.mk	/^DBG_PRINT_INC = $(MODULE_DIR)\/dbgprint\/$/;"	m
 DBG_PRINT_SRCS	modules/dbgprint/debugprint.mk	/^DBG_PRINT_SRCS = $(MODULE_DIR)\/dbgprint\/circularbuffer.c \\$/;"	m
 DDEFS	Makefile	/^DDEFS = -DSTM32F405xx -DGIT_VERSION=$(GIT_VERSION) -DDATE=$(GIT_DATE)$/;"	m
-DEBUG	drivers/dw1000/dw1000_ranging.c	8;"	d	file:
-DEBUG	drivers/dw1000/dw1000_ranging.c	9;"	d	file:
-DEBUG	drivers/dw1000/dw1000_ranging.h	12;"	d
-DEBUG	drivers/dw1000/dw1000_ranging.h	13;"	d
+DEBUG	drivers/dw1000/dw1000_ranging.c	3;"	d	file:
+DEBUG	drivers/dw1000/dw1000_ranging.c	4;"	d	file:
+DEBUG	drivers/dw1000/dw1000_ranging.h	18;"	d
+DEBUG	drivers/dw1000/dw1000_ranging.h	19;"	d
 DEBUG	modules/timer/timer.c	11;"	d	file:
 DEBUG	modules/timer/timer.c	12;"	d	file:
 DEBUG_BUFFER_SIZE	modules/dbgprint/debug_print.h	9;"	d
 DEBUG_DW1000	drivers/dw1000/dw1000.h	5;"	d
+DELAY_BETWEEN_RANGINGS	drivers/dw1000/fulhacket.h	9;"	d
 DFU_BASE_ADDRESS	system/bootloader.h	11;"	d
 DFU_MSP_ADDRESS	system/bootloader.h	15;"	d
 DFU_RESET_ADDRESS	system/bootloader.h	19;"	d
@@ -109,6 +114,7 @@ DLIBS	Makefile	/^DLIBS =$/;"	m
 DRIVERS_DIR	drivers/drivers.mk	/^DRIVERS_DIR = .\/drivers$/;"	m
 DW1000INC	drivers/dw1000/dw1000.mk	/^DW1000INC= $(DRIVERS_DIR)\/dw1000$/;"	m
 DW1000SRC	drivers/dw1000/dw1000.mk	/^DW1000SRC = $(DRIVERS_DIR)\/dw1000\/dw1000.c \\$/;"	m
+DW1000_ANTENNA_DELAY	drivers/dw1000/dw1000_ranging.h	94;"	d
 DW1000_CHANNEL_1	drivers/dw1000/dw1000_lld.h	/^    DW1000_CHANNEL_1        = 1,$/;"	e	enum:__anon16
 DW1000_CHANNEL_2	drivers/dw1000/dw1000_lld.h	/^    DW1000_CHANNEL_2        = 2,$/;"	e	enum:__anon16
 DW1000_CHANNEL_3	drivers/dw1000/dw1000_lld.h	/^    DW1000_CHANNEL_3        = 3,$/;"	e	enum:__anon16
@@ -208,7 +214,7 @@ DW1000_PRF_16_MHZ	drivers/dw1000/dw1000_lld.h	/^    DW1000_PRF_16_MHZ  = 0x01,$/
 DW1000_PRF_64_MHZ	drivers/dw1000/dw1000_lld.h	/^    DW1000_PRF_64_MHZ  = 0x02,$/;"	e	enum:__anon21
 DW1000_RANGING	drivers/dw1000/dw1000.h	/^    DW1000_RANGING,$/;"	e	enum:__anon10
 DW1000_RANGING_BIT	drivers/dw1000/dw1000_reg.h	301;"	d
-DW1000_RANGING_DELAY_VAL	drivers/dw1000/dw1000_ranging.h	85;"	d
+DW1000_RANGING_DELAY_VAL	drivers/dw1000/dw1000_ranging.h	91;"	d
 DW1000_REGISTER_DEFINITIONS_H_	drivers/dw1000/dw1000_reg.h	26;"	d
 DW1000_REG_ACC_MEM	drivers/dw1000/dw1000_reg.h	196;"	d
 DW1000_REG_ACK_RESP_T	drivers/dw1000/dw1000_reg.h	156;"	d
@@ -360,7 +366,9 @@ DW1000_TXPWR_OFF	drivers/dw1000/dw1000_reg.h	311;"	d
 DW1000_TX_PWR_MAX	drivers/dw1000/dw1000_reg.h	315;"	d
 DW1000_TX_PWR_MAX_ALL	drivers/dw1000/dw1000_reg.h	316;"	d
 DW1000_UNINITIALIZED	drivers/dw1000/dw1000.h	/^    DW1000_UNINITIALIZED,$/;"	e	enum:__anon10
-DW1000_US_TO_TIME	drivers/dw1000/dw1000_ranging.h	84;"	d
+DW1000_US_TO_TIME	drivers/dw1000/dw1000_ranging.h	90;"	d
+EEPROMINC	drivers/eeprom/eeprom.mk	/^EEPROMINC = $(DRIVERS_DIR)\/eeprom\/$/;"	m
+EEPROMSRC	drivers/eeprom/eeprom.mk	/^EEPROMSRC = $(DRIVERS_DIR)\/eeprom\/eeprom.c$/;"	m
 EEPROM_H_	drivers/eeprom/eeprom.h	9;"	d
 EEPROM_SPI_BUS	drivers/eeprom/eeprom.h	21;"	d
 EEPROM_SPI_CS	drivers/eeprom/eeprom.h	16;"	d
@@ -368,7 +376,8 @@ EEPROM_SPI_MISO	drivers/eeprom/eeprom.h	18;"	d
 EEPROM_SPI_MOSI	drivers/eeprom/eeprom.h	19;"	d
 EEPROM_SPI_PORT	drivers/eeprom/eeprom.h	14;"	d
 EEPROM_SPI_SCK	drivers/eeprom/eeprom.h	17;"	d
-EICUConfig	drivers/eicu/lld/eicu_lld.h	/^} EICUConfig;$/;"	t	typeref:struct:__anon34
+EEPROM_UID_ADDRESS	drivers/eeprom/eeprom.h	23;"	d
+EICUConfig	drivers/eicu/lld/eicu_lld.h	/^} EICUConfig;$/;"	t	typeref:struct:__anon35
 EICUD1	drivers/eicu/lld/eicu_lld.c	/^EICUDriver EICUD1;$/;"	v
 EICUD12	drivers/eicu/lld/eicu_lld.c	/^EICUDriver EICUD12;$/;"	v
 EICUD2	drivers/eicu/lld/eicu_lld.c	/^EICUDriver EICUD2;$/;"	v
@@ -381,51 +390,52 @@ EICUDriver	drivers/eicu/eicu.h	/^typedef struct EICUDriver EICUDriver;$/;"	t	typ
 EICUDriver	drivers/eicu/lld/eicu_lld.h	/^struct EICUDriver$/;"	s
 EICUINC	drivers/eicu/eicu.mk	/^EICUINC = $(DRIVERS_DIR)\/eicu \\$/;"	m
 EICUSRC	drivers/eicu/eicu.mk	/^EICUSRC = $(DRIVERS_DIR)\/eicu\/lld\/eicu_lld.c \\$/;"	m
-EICU_ACTIVE	drivers/eicu/eicu.h	/^  EICU_ACTIVE = 4,              \/* Active cycle phase.                        *\/$/;"	e	enum:__anon29
-EICU_CHANNEL_1	drivers/eicu/eicu.h	/^  EICU_CHANNEL_1 = 0,$/;"	e	enum:__anon30
-EICU_CHANNEL_2	drivers/eicu/eicu.h	/^  EICU_CHANNEL_2 = 1,$/;"	e	enum:__anon30
-EICU_CHANNEL_3	drivers/eicu/eicu.h	/^  EICU_CHANNEL_3 = 2,$/;"	e	enum:__anon30
-EICU_CHANNEL_4	drivers/eicu/eicu.h	/^  EICU_CHANNEL_4 = 3$/;"	e	enum:__anon30
-EICU_IC_Settings	drivers/eicu/lld/eicu_lld.h	/^} EICU_IC_Settings;$/;"	t	typeref:struct:__anon33
-EICU_IDLE	drivers/eicu/eicu.h	/^  EICU_IDLE = 5                 \/* Idle cycle phase.                          *\/$/;"	e	enum:__anon29
-EICU_INPUT_ACTIVE_HIGH	drivers/eicu/lld/eicu_lld.h	/^  EICU_INPUT_ACTIVE_HIGH = 0,$/;"	e	enum:__anon31
-EICU_INPUT_ACTIVE_LOW	drivers/eicu/lld/eicu_lld.h	/^  EICU_INPUT_ACTIVE_LOW = 1,$/;"	e	enum:__anon31
-EICU_INPUT_EDGE	drivers/eicu/lld/eicu_lld.h	/^  EICU_INPUT_EDGE = 0,$/;"	e	enum:__anon32
-EICU_INPUT_PULSE	drivers/eicu/lld/eicu_lld.h	/^  EICU_INPUT_PULSE = 1,$/;"	e	enum:__anon32
-EICU_INPUT_PWM	drivers/eicu/lld/eicu_lld.h	/^  EICU_INPUT_PWM = 2$/;"	e	enum:__anon32
-EICU_READY	drivers/eicu/eicu.h	/^  EICU_READY = 2,               \/* Ready.                                     *\/$/;"	e	enum:__anon29
-EICU_STOP	drivers/eicu/eicu.h	/^  EICU_STOP = 1,                \/* Stopped.                                   *\/$/;"	e	enum:__anon29
-EICU_UNINIT	drivers/eicu/eicu.h	/^  EICU_UNINIT = 0,              \/* Not initialized.                           *\/$/;"	e	enum:__anon29
-EICU_WAITING	drivers/eicu/eicu.h	/^  EICU_WAITING = 3,             \/* Waiting for first edge.                    *\/$/;"	e	enum:__anon29
+EICU_ACTIVE	drivers/eicu/eicu.h	/^  EICU_ACTIVE = 4,              \/* Active cycle phase.                        *\/$/;"	e	enum:__anon30
+EICU_CHANNEL_1	drivers/eicu/eicu.h	/^  EICU_CHANNEL_1 = 0,$/;"	e	enum:__anon31
+EICU_CHANNEL_2	drivers/eicu/eicu.h	/^  EICU_CHANNEL_2 = 1,$/;"	e	enum:__anon31
+EICU_CHANNEL_3	drivers/eicu/eicu.h	/^  EICU_CHANNEL_3 = 2,$/;"	e	enum:__anon31
+EICU_CHANNEL_4	drivers/eicu/eicu.h	/^  EICU_CHANNEL_4 = 3$/;"	e	enum:__anon31
+EICU_IC_Settings	drivers/eicu/lld/eicu_lld.h	/^} EICU_IC_Settings;$/;"	t	typeref:struct:__anon34
+EICU_IDLE	drivers/eicu/eicu.h	/^  EICU_IDLE = 5                 \/* Idle cycle phase.                          *\/$/;"	e	enum:__anon30
+EICU_INPUT_ACTIVE_HIGH	drivers/eicu/lld/eicu_lld.h	/^  EICU_INPUT_ACTIVE_HIGH = 0,$/;"	e	enum:__anon32
+EICU_INPUT_ACTIVE_LOW	drivers/eicu/lld/eicu_lld.h	/^  EICU_INPUT_ACTIVE_LOW = 1,$/;"	e	enum:__anon32
+EICU_INPUT_EDGE	drivers/eicu/lld/eicu_lld.h	/^  EICU_INPUT_EDGE = 0,$/;"	e	enum:__anon33
+EICU_INPUT_PULSE	drivers/eicu/lld/eicu_lld.h	/^  EICU_INPUT_PULSE = 1,$/;"	e	enum:__anon33
+EICU_INPUT_PWM	drivers/eicu/lld/eicu_lld.h	/^  EICU_INPUT_PWM = 2$/;"	e	enum:__anon33
+EICU_READY	drivers/eicu/eicu.h	/^  EICU_READY = 2,               \/* Ready.                                     *\/$/;"	e	enum:__anon30
+EICU_STOP	drivers/eicu/eicu.h	/^  EICU_STOP = 1,                \/* Stopped.                                   *\/$/;"	e	enum:__anon30
+EICU_UNINIT	drivers/eicu/eicu.h	/^  EICU_UNINIT = 0,              \/* Not initialized.                           *\/$/;"	e	enum:__anon30
+EICU_WAITING	drivers/eicu/eicu.h	/^  EICU_WAITING = 3,             \/* Waiting for first edge.                    *\/$/;"	e	enum:__anon30
 EMPTY	Makefile	/^EMPTY :=$/;"	m
 EXTI_H	exti.h	3;"	d
 FAULT	drivers/dw1000/dw1000_hal.h	/^    FAULT$/;"	e	enum:__anon28
-FCR_ACK_REQUEST	drivers/dw1000/dw1000_ranging.h	61;"	d
-FCR_ADDRESS_LEN	drivers/dw1000/dw1000_ranging.h	40;"	d
-FCR_AUX_SECURITY_HEADER	drivers/dw1000/dw1000_ranging.h	41;"	d
-FCR_COMPRESSED_SHORTADDR_DATA	drivers/dw1000/dw1000_ranging.c	28;"	d	file:
-FCR_DEST_ADDR_LONG	drivers/dw1000/dw1000_ranging.h	69;"	d
-FCR_DEST_ADDR_NONE	drivers/dw1000/dw1000_ranging.h	66;"	d
-FCR_DEST_ADDR_RESERVED	drivers/dw1000/dw1000_ranging.h	67;"	d
-FCR_DEST_ADDR_SHORT	drivers/dw1000/dw1000_ranging.h	68;"	d
-FCR_FRAME_PENDING	drivers/dw1000/dw1000_ranging.h	59;"	d
-FCR_FRAME_TYPE_ACK	drivers/dw1000/dw1000_ranging.h	54;"	d
-FCR_FRAME_TYPE_BEACON	drivers/dw1000/dw1000_ranging.h	52;"	d
-FCR_FRAME_TYPE_DATA	drivers/dw1000/dw1000_ranging.h	53;"	d
-FCR_FRAME_TYPE_MAC_CMD	drivers/dw1000/dw1000_ranging.h	55;"	d
-FCR_FRAME_VERSION_2003	drivers/dw1000/dw1000_ranging.h	71;"	d
-FCR_FRAME_VERSION_2011	drivers/dw1000/dw1000_ranging.h	72;"	d
-FCR_PAN_ID_COMPRESSION	drivers/dw1000/dw1000_ranging.h	64;"	d
-FCR_SECURITY_ENABLED	drivers/dw1000/dw1000_ranging.h	57;"	d
-FCR_SRC_ADDR_LONG	drivers/dw1000/dw1000_ranging.h	77;"	d
-FCR_SRC_ADDR_NONE	drivers/dw1000/dw1000_ranging.h	74;"	d
-FCR_SRC_ADDR_RESERVED	drivers/dw1000/dw1000_ranging.h	75;"	d
-FCR_SRC_ADDR_SHORT	drivers/dw1000/dw1000_ranging.h	76;"	d
-FCR_USE_SHORT_ADDRESSES	drivers/dw1000/dw1000_ranging.h	39;"	d
+FCR_ACK_REQUEST	drivers/dw1000/dw1000_ranging.h	67;"	d
+FCR_ADDRESS_LEN	drivers/dw1000/dw1000_ranging.h	46;"	d
+FCR_AUX_SECURITY_HEADER	drivers/dw1000/dw1000_ranging.h	47;"	d
+FCR_COMPRESSED_SHORTADDR_DATA	drivers/dw1000/dw1000_ranging.c	23;"	d	file:
+FCR_DEST_ADDR_LONG	drivers/dw1000/dw1000_ranging.h	75;"	d
+FCR_DEST_ADDR_NONE	drivers/dw1000/dw1000_ranging.h	72;"	d
+FCR_DEST_ADDR_RESERVED	drivers/dw1000/dw1000_ranging.h	73;"	d
+FCR_DEST_ADDR_SHORT	drivers/dw1000/dw1000_ranging.h	74;"	d
+FCR_FRAME_PENDING	drivers/dw1000/dw1000_ranging.h	65;"	d
+FCR_FRAME_TYPE_ACK	drivers/dw1000/dw1000_ranging.h	60;"	d
+FCR_FRAME_TYPE_BEACON	drivers/dw1000/dw1000_ranging.h	58;"	d
+FCR_FRAME_TYPE_DATA	drivers/dw1000/dw1000_ranging.h	59;"	d
+FCR_FRAME_TYPE_MAC_CMD	drivers/dw1000/dw1000_ranging.h	61;"	d
+FCR_FRAME_VERSION_2003	drivers/dw1000/dw1000_ranging.h	77;"	d
+FCR_FRAME_VERSION_2011	drivers/dw1000/dw1000_ranging.h	78;"	d
+FCR_PAN_ID_COMPRESSION	drivers/dw1000/dw1000_ranging.h	70;"	d
+FCR_SECURITY_ENABLED	drivers/dw1000/dw1000_ranging.h	63;"	d
+FCR_SRC_ADDR_LONG	drivers/dw1000/dw1000_ranging.h	83;"	d
+FCR_SRC_ADDR_NONE	drivers/dw1000/dw1000_ranging.h	80;"	d
+FCR_SRC_ADDR_RESERVED	drivers/dw1000/dw1000_ranging.h	81;"	d
+FCR_SRC_ADDR_SHORT	drivers/dw1000/dw1000_ranging.h	82;"	d
+FCR_USE_SHORT_ADDRESSES	drivers/dw1000/dw1000_ranging.h	45;"	d
 FCS_ERRORS	drivers/dw1000/dw1000.h	/^     FCS_ERRORS,$/;"	e	enum:__anon12
 FCS_GOOD	drivers/dw1000/dw1000.h	/^     FCS_GOOD,$/;"	e	enum:__anon12
 FILTER_REJECTIONS	drivers/dw1000/dw1000.h	/^     FILTER_REJECTIONS,$/;"	e	enum:__anon12
 FIRMWARE_BASE	modules/version_information/inc/version_information.h	22;"	d
+FULHACKET_H_	drivers/dw1000/fulhacket.h	2;"	d
 FUNCTION_NAME	modules/version_information/inc/version_information.h	41;"	d
 GDB	Makefile	/^GDB = arm-none-eabi-gdb$/;"	m
 GDB_FLAGS	Makefile	/^GDB_FLAGS = -ex "target remote | $(OPENOCD) -c \\"gdb_port pipe; log_output openocd.log\\" -f interface\/$(OCD_INTERFFACE) -f target\/$(OCD_TARGET).cfg" -ex "load" -ex "monitor reset halt"$/;"	m
@@ -606,6 +616,7 @@ HAL_USE_TM	halconf.h	37;"	d
 HAL_USE_UART	halconf.h	156;"	d
 HAL_USE_USB	halconf.h	163;"	d
 HEX	Makefile	/^HEX  = $(CP) -O ihex$/;"	m
+HardFault_Handler	main.c	/^void HardFault_Handler(unsigned long *hardfault_args){$/;"	f
 I2C_USE_MUTUAL_EXCLUSION	halconf.h	205;"	d
 IDLE	drivers/dw1000/dw1000_hal.h	/^    IDLE,$/;"	e	enum:__anon28
 IEEE_STRUCTS_H_	drivers/dw1000/dw1000_ranging.h	9;"	d
@@ -613,15 +624,18 @@ INCDIR	Makefile	/^INCDIR = $(STARTUPINC) $(KERNINC) $(PORTINC) $(OSALINC) \\$/;"
 INITIALIZING	drivers/dw1000/dw1000_hal.h	/^    INITIALIZING, \/* EMIL: Unnecessary *\/$/;"	e	enum:__anon28
 LD	Makefile	/^LD   = $(TRGT)gcc$/;"	m
 LDSCRIPT	Makefile	/^LDSCRIPT = make\/STM32F405xG.ld$/;"	m
-MAC_HDR_SIZE	drivers/dw1000/dw1000_ranging.h	46;"	d
+MAC_HDR_SIZE	drivers/dw1000/dw1000_ranging.h	52;"	d
 MAC_USE_EVENTS	halconf.h	223;"	d
 MAC_USE_ZERO_COPY	halconf.h	216;"	d
-MAX_MAC_FRAME_SIZE	drivers/dw1000/dw1000_ranging.h	43;"	d
+MAX_MAC_FRAME_SIZE	drivers/dw1000/dw1000_ranging.h	49;"	d
 MCU	Makefile	/^MCU  = cortex-m4$/;"	m
 MMC_NICE_WAITING	halconf.h	239;"	d
 MODULES_INC	modules/modules.mk	/^MODULES_INC = $(USB_INC) \\$/;"	m
 MODULES_SRC	modules/modules.mk	/^MODULES_SRC = $(USB_SRCS) \\$/;"	m
 MODULE_DIR	modules/modules.mk	/^MODULE_DIR = .\/modules$/;"	m
+NODE1	drivers/dw1000/fulhacket.h	/^    NODE1,$/;"	e	enum:__anon29
+NODE2	drivers/dw1000/fulhacket.h	/^    NODE2,$/;"	e	enum:__anon29
+NODE3	drivers/dw1000/fulhacket.h	/^    NODE3$/;"	e	enum:__anon29
 OCD_INTERFFACE	Makefile	/^OCD_INTERFFACE = stlink-v2.cfg$/;"	m
 OCD_TARGET	Makefile	/^OCD_TARGET = stm32f4x$/;"	m
 OD	Makefile	/^OD   = $(TRGT)objdump$/;"	m
@@ -657,7 +671,7 @@ PREAMBLE_TIMEOUTS	drivers/dw1000/dw1000.h	/^     PREAMBLE_TIMEOUTS,$/;"	e	enum:_
 PROJECT	Makefile	/^PROJECT = base_example$/;"	m
 RANGING_ANCHOR_RESPONSE	drivers/dw1000/dw1000_ranging.h	/^    RANGING_ANCHOR_RESPONSE,$/;"	e	enum:__anon6
 RANGING_INITIATOR_DATA	drivers/dw1000/dw1000_ranging.h	/^    RANGING_INITIATOR_DATA,$/;"	e	enum:__anon6
-RANGING_MEASUREMENTS	drivers/dw1000/dw1000_ranging.c	70;"	d	file:
+RANGING_MEASUREMENTS	drivers/dw1000/dw1000_ranging.c	65;"	d	file:
 RANGING_REQUEST	drivers/dw1000/dw1000_ranging.h	/^    RANGING_REQUEST,$/;"	e	enum:__anon6
 RANGING_RESULTS	drivers/dw1000/dw1000_ranging.h	/^    RANGING_RESULTS$/;"	e	enum:__anon6
 RSD_ERRORS	drivers/dw1000/dw1000.h	/^     RSD_ERRORS,$/;"	e	enum:__anon12
@@ -936,11 +950,12 @@ SYSTEM_STOPPED	system/system_init.h	/^    SYSTEM_STOPPED$/;"	e	enum:__anon4
 SYSTEM_TERMINATING	system/system_init.h	/^    SYSTEM_TERMINATING,$/;"	e	enum:__anon4
 SYSTEM_UNINITIALIZED	system/system_init.h	/^    SYSTEM_UNINITIALIZED,$/;"	e	enum:__anon4
 SZ	Makefile	/^SZ   = $(TRGT)size$/;"	m
-TARGET_LIM	drivers/dw1000/dw1000_ranging.c	69;"	d	file:
-TARGET_VALUE	drivers/dw1000/dw1000_ranging.c	68;"	d	file:
+TARGET_LIM	drivers/dw1000/dw1000_ranging.c	64;"	d	file:
+TARGET_VALUE	drivers/dw1000/dw1000_ranging.c	63;"	d	file:
 TCPPSRC	Makefile	/^TCPPSRC =$/;"	m
 TCSRC	Makefile	/^TCSRC =$/;"	m
 TEST_WA_SIZE	modules/usb/usb_related.c	317;"	d	file:
+THD_FUNCTION	drivers/dw1000/fulhacket.c	/^THD_FUNCTION(chainRange, arg) {$/;"	f
 THD_FUNCTION	exti.c	/^THD_FUNCTION(myThread, arg) {$/;"	f
 THD_FUNCTION	modules/dbgprint/debug_print.c	/^static THD_FUNCTION(DebugPrintTask, arg)$/;"	f	file:
 TIMER_H_	modules/timer/timer.h	9;"	d
@@ -1074,6 +1089,7 @@ _eicu_isr_invoke_pwm_width_cb	drivers/eicu/eicu.h	147;"	d
 _system_critical_subscription	system/system_init.h	/^typedef struct _system_critical_subscription$/;"	s
 accumulated_time	modules/timer/timer.h	/^        uint32_t accumulated_time;$/;"	m	struct:__anon2
 anchor_response_timestamp	drivers/dw1000/dw1000_ranging.h	/^    uint8_t anchor_response_timestamp[5];$/;"	m	struct:__anon8
+anchors	drivers/dw1000/fulhacket.c	/^dw1000_shortaddr_t anchors[] = {$/;"	v
 assert_errors	chconf.h	/^} assert_errors;$/;"	t	typeref:struct:__anon1
 autoack	drivers/dw1000/dw1000.h	/^    bool    autoack;$/;"	m	struct:__anon11
 bSystemShutdownRequested	system/system_init.c	/^bool bSystemShutdownRequested(void)$/;"	f
@@ -1086,6 +1102,7 @@ calculate_tof	drivers/dw1000/dw1000_ranging.c	/^uint64_t calculate_tof(dw1000_dr
 calibration_cb	drivers/dw1000/dw1000_ranging.c	/^void calibration_cb(dw1000_driver_t *dw, ranging_result_msg_t *msg){$/;"	f
 cbuff_ptr	modules/dbgprint/debug_print.c	/^static circular_buffer_t *cbuff_ptr;$/;"	v	file:
 chDbgAssert	chconf.h	510;"	d
+chain_range	drivers/dw1000/fulhacket.c	/^void chain_range(dw1000_driver_t *dw){$/;"	f
 channel	drivers/dw1000/dw1000_lld.h	/^    dw1000_channel_t    channel;$/;"	m	struct:__anon26
 circular_buffer_t	modules/dbgprint/circularbuffer.h	/^} circular_buffer_t;$/;"	t	typeref:struct:__anon3
 clock	drivers/eicu/lld/eicu_lld.h	/^  uint32_t clock;$/;"	m	struct:EICUDriver
@@ -1095,6 +1112,7 @@ config	drivers/eicu/lld/eicu_lld.h	/^  const EICUConfig *config;$/;"	m	struct:EI
 conv_u64_b	drivers/dw1000/dw1000_ranging.h	/^    } conv_u64_b;$/;"	t	typeref:union:__anon5
 counter	main.c	/^uint16_t counter[12];$/;"	v
 counter	modules/timer/timer.h	/^        uint8_t counter;$/;"	m	struct:__anon2
+ctrp	drivers/dw1000/fulhacket.c	/^static thread_reference_t ctrp = NULL;$/;"	v	file:
 datarate	drivers/dw1000/dw1000_lld.h	/^    dw1000_datarate_t   datarate;$/;"	m	struct:__anon26
 debug_print	modules/dbgprint/debug_print.c	/^BaseSequentialStream debug_print = {$/;"	v
 debug_print_vmt	modules/dbgprint/debug_print.c	/^const struct BaseSequentialStreamVMT debug_print_vmt = {$/;"	v	typeref:struct:BaseSequentialStreamVMT
@@ -1106,7 +1124,8 @@ dest_addr	drivers/dw1000/dw1000_ranging.h	/^    uint8_t dest_addr[FCR_ADDRESS_LE
 dest_pan	drivers/dw1000/dw1000_ranging.h	/^    uint16_t dest_pan;$/;"	m	struct:__anon7
 dest_pan	drivers/dw1000/dw1000_ranging.h	/^    uint16_t dest_pan;$/;"	m	struct:__anon8
 dest_pan	drivers/dw1000/dw1000_ranging.h	/^    uint16_t dest_pan;$/;"	m	struct:__anon9
-dier	drivers/eicu/lld/eicu_lld.h	/^  uint32_t                  dier;$/;"	m	struct:__anon34
+devid	main.c	/^dw1000_euid_t devid;$/;"	v
+dier	drivers/eicu/lld/eicu_lld.h	/^  uint32_t                  dier;$/;"	m	struct:__anon35
 dw	main.c	/^dw1000_driver_t dw;$/;"	v
 dw1000_calc_rx_power	drivers/dw1000/dw1000.c	/^float dw1000_calc_rx_power(dw1000_driver_t *self, uint16_t cir_pwr, uint16_t pacs){$/;"	f
 dw1000_channel_t	drivers/dw1000/dw1000_lld.h	/^} dw1000_channel_t;$/;"	t	typeref:enum:__anon16
@@ -1159,6 +1178,7 @@ dw1000_receive	drivers/dw1000/dw1000.c	/^void dw1000_receive(dw1000_driver_t *se
 dw1000_send	drivers/dw1000/dw1000.c	/^void dw1000_send(dw1000_driver_t *self, dw1000_msg_t *msg){$/;"	f
 dw1000_send_delayed	drivers/dw1000/dw1000.c	/^void dw1000_send_delayed(dw1000_driver_t *self, dw1000_msg_t *msg, uint64_t sendtime){$/;"	f
 dw1000_set_agc_tune	drivers/dw1000/dw1000_lld.c	/^void dw1000_set_agc_tune(dw1000_hal_t *hal){$/;"	f
+dw1000_set_antenna_delay	drivers/dw1000/dw1000_lld.c	/^void dw1000_set_antenna_delay(dw1000_hal_t *hal, uint16_t delay){$/;"	f
 dw1000_set_channel	drivers/dw1000/dw1000_lld.c	/^bool dw1000_set_channel(dw1000_hal_t *hal, uint8_t channel)$/;"	f
 dw1000_set_datarate	drivers/dw1000/dw1000_lld.c	/^bool dw1000_set_datarate(dw1000_hal_t *hal, uint8_t datarate){$/;"	f
 dw1000_set_datasize	drivers/dw1000/dw1000_lld.c	/^void dw1000_set_datasize(dw1000_hal_t *hal)$/;"	f
@@ -1221,12 +1241,12 @@ eicu_lld_serve_interrupt	drivers/eicu/lld/eicu_lld.c	/^static void eicu_lld_serv
 eicu_lld_start	drivers/eicu/lld/eicu_lld.c	/^void eicu_lld_start(EICUDriver *eicup) {$/;"	f
 eicu_lld_stop	drivers/eicu/lld/eicu_lld.c	/^void eicu_lld_stop(EICUDriver *eicup) {$/;"	f
 eicucallback_t	drivers/eicu/eicu.h	/^typedef void (*eicucallback_t)(EICUDriver *eicup, eicuchannel_t channel);$/;"	t
-eicuchannel_t	drivers/eicu/eicu.h	/^} eicuchannel_t;$/;"	t	typeref:enum:__anon30
+eicuchannel_t	drivers/eicu/eicu.h	/^} eicuchannel_t;$/;"	t	typeref:enum:__anon31
 eicucnt_t	drivers/eicu/lld/eicu_lld.h	/^typedef uint16_t eicucnt_t;$/;"	t
 eicufreq_t	drivers/eicu/lld/eicu_lld.h	/^typedef uint32_t eicufreq_t;$/;"	t
-eicuinput_t	drivers/eicu/lld/eicu_lld.h	/^} eicuinput_t;$/;"	t	typeref:enum:__anon32
-eicumode_t	drivers/eicu/lld/eicu_lld.h	/^} eicumode_t;$/;"	t	typeref:enum:__anon31
-eicustate_t	drivers/eicu/eicu.h	/^} eicustate_t;$/;"	t	typeref:enum:__anon29
+eicuinput_t	drivers/eicu/lld/eicu_lld.h	/^} eicuinput_t;$/;"	t	typeref:enum:__anon33
+eicumode_t	drivers/eicu/lld/eicu_lld.h	/^} eicumode_t;$/;"	t	typeref:enum:__anon32
+eicustate_t	drivers/eicu/eicu.h	/^} eicustate_t;$/;"	t	typeref:enum:__anon30
 emilfilter	drivers/dw1000/dw1000_ranging.c	/^uint64_t emilfilter(uint64_t input){$/;"	f
 ep1config	modules/usb/src/myusb.c	/^static const USBEndpointConfig ep1config = {$/;"	v	file:
 ep1config	modules/usb/usb_related.c	/^static const USBEndpointConfig ep1config = {$/;"	v	file:
@@ -1240,14 +1260,16 @@ ep2instate	modules/usb/src/myusb.c	/^static USBInEndpointState ep2instate;$/;"	v
 ep2instate	modules/usb/usb_related.c	/^static USBInEndpointState ep2instate;$/;"	v	file:
 euid	drivers/dw1000/dw1000_lld.h	/^    dw1000_euid_t euid;$/;"	m	struct:__anon26
 extcb1	exti.c	/^void extcb1(EXTDriver *extp, expchannel_t channel) {$/;"	f
-extcfg	main.c	/^const EXTConfig extcfg = {$/;"	v
+extcfg	exti.c	/^const EXTConfig extcfg = {$/;"	v
 fcr	drivers/dw1000/dw1000_ranging.h	/^    uint16_t fcr;$/;"	m	struct:__anon7
 fcr	drivers/dw1000/dw1000_ranging.h	/^    uint16_t fcr;$/;"	m	struct:__anon8
 fcr	drivers/dw1000/dw1000_ranging.h	/^    uint16_t fcr;$/;"	m	struct:__anon9
-frequency	drivers/eicu/lld/eicu_lld.h	/^  eicufreq_t frequency;$/;"	m	struct:__anon34
+frequency	drivers/eicu/lld/eicu_lld.h	/^  eicufreq_t frequency;$/;"	m	struct:__anon35
 function	chconf.h	/^  const char *function;$/;"	m	struct:__anon1
 get_descriptor	modules/usb/src/myusb.c	/^static const USBDescriptor *get_descriptor(USBDriver *usbp,$/;"	f	file:
 get_descriptor	modules/usb/usb_related.c	/^static const USBDescriptor *get_descriptor(USBDriver *usbp,$/;"	f	file:
+get_euid	main.c	/^void get_euid(void){$/;"	f
+get_role	drivers/dw1000/fulhacket.c	/^rangerRole get_role(dw1000_euid_t id){$/;"	f
 get_timer_us	modules/timer/timer.c	/^uint32_t get_timer_us(my_timer_t *timer){$/;"	f
 get_timex_us	modules/timer/timer.c	/^uint32_t get_timex_us(){$/;"	f
 hal	drivers/dw1000/dw1000_lld.h	/^    dw1000_hal_t *hal;$/;"	m	struct:__anon26
@@ -1256,13 +1278,13 @@ hal_state_t	drivers/dw1000/dw1000_hal.h	/^} hal_state_t;$/;"	t	typeref:enum:__an
 handle_ranging	drivers/dw1000/dw1000_ranging.c	/^void handle_ranging(dw1000_driver_t *dw, ieee_mac_frame_t *rangingframe){$/;"	f
 head	modules/dbgprint/circularbuffer.h	/^    uint32_t head;          \/* Newest element *\/$/;"	m	struct:__anon3
 hs_spicfg	drivers/dw1000/dw1000_hal.c	/^static const SPIConfig hs_spicfg = {$/;"	v	file:
-iccfgp	drivers/eicu/lld/eicu_lld.h	/^  const EICU_IC_Settings *iccfgp[4];$/;"	m	struct:__anon34
+iccfgp	drivers/eicu/lld/eicu_lld.h	/^  const EICU_IC_Settings *iccfgp[4];$/;"	m	struct:__anon35
 ieee_mac_frame_t	drivers/dw1000/dw1000_ranging.h	/^} ieee_mac_frame_t;$/;"	t	typeref:struct:__anon9
 init	drivers/dw1000/dw1000.h	/^    void (*init)(struct dw1000_driver_t *self);$/;"	m	struct:dw1000_driver_t
 init	drivers/dw1000/dw1000_hal.h	/^    bool (*init)(struct dw1000_hal_t *self);$/;"	m	struct:dw1000_hal_t
 init_timer	modules/timer/timer.c	/^void init_timer(my_timer_t *timer){$/;"	f
 init_timex	modules/timer/timer.c	/^void init_timex(){$/;"	f
-input_type	drivers/eicu/lld/eicu_lld.h	/^  eicuinput_t input_type;$/;"	m	struct:__anon34
+input_type	drivers/eicu/lld/eicu_lld.h	/^  eicuinput_t input_type;$/;"	m	struct:__anon35
 interruptmask	drivers/dw1000/dw1000_lld.h	/^    uint32_t interruptmask;$/;"	m	struct:__anon26
 isUSBActive	modules/usb/src/myusb.c	/^bool isUSBActive(void)$/;"	f
 kfly_assert_errors	main.c	/^volatile assert_errors kfly_assert_errors;$/;"	v
@@ -1274,36 +1296,38 @@ length	drivers/dw1000/dw1000_ranging.h	/^    uint16_t length;$/;"	m	struct:__ano
 length	drivers/dw1000/dw1000_ranging.h	/^    uint16_t length;$/;"	m	struct:__anon9
 ls_spicfg	drivers/dw1000/dw1000_hal.c	/^static const SPIConfig ls_spicfg = {$/;"	v	file:
 main	main.c	/^int main(void)$/;"	f
-mode	drivers/eicu/lld/eicu_lld.h	/^  eicumode_t mode;$/;"	m	struct:__anon33
+mode	drivers/eicu/lld/eicu_lld.h	/^  eicumode_t mode;$/;"	m	struct:__anon34
 my_abs	drivers/dw1000/dw1000_ranging.c	/^int64_t my_abs(int64_t val){$/;"	f
 my_timer_t	modules/timer/timer.h	/^}my_timer_t;$/;"	t	typeref:struct:__anon2
 next	system/system_init.h	/^    struct _system_critical_subscription *next;$/;"	m	struct:_system_critical_subscription	typeref:struct:_system_critical_subscription::_system_critical_subscription
-overflow_cb	drivers/eicu/lld/eicu_lld.h	/^  eicucallback_t overflow_cb;$/;"	m	struct:__anon34
+overflow_cb	drivers/eicu/lld/eicu_lld.h	/^  eicucallback_t overflow_cb;$/;"	m	struct:__anon35
 pac	drivers/dw1000/dw1000_lld.h	/^    dw1000_pac_t pac;$/;"	m	struct:__anon26
 pal_default_config	board/board.c	/^const PALConfig pal_default_config =$/;"	v
 panid	drivers/dw1000/dw1000_lld.h	/^    dw1000_panid_t panid;$/;"	m	struct:__anon26
 payload	drivers/dw1000/dw1000.h	/^    uint8_t *payload;$/;"	m	struct:__anon11
 payload	drivers/dw1000/dw1000_ranging.h	/^    uint8_t payload[MAX_MAC_FRAME_SIZE - MAC_HDR_SIZE];$/;"	m	struct:__anon9
 pccrp	drivers/eicu/lld/eicu_lld.h	/^  volatile uint32_t *pccrp;$/;"	m	struct:EICUDriver
-period_cb	drivers/eicu/lld/eicu_lld.h	/^  eicucallback_t period_cb;$/;"	m	struct:__anon34
+period_cb	drivers/eicu/lld/eicu_lld.h	/^  eicucallback_t period_cb;$/;"	m	struct:__anon35
 preamble	drivers/dw1000/dw1000_lld.h	/^    dw1000_preamble_t preamble;$/;"	m	struct:__anon26
 prf	drivers/dw1000/dw1000_lld.h	/^    dw1000_prf_t prf;$/;"	m	struct:__anon26
 print_out_ptr	modules/dbgprint/debug_print.c	/^static BaseSequentialStream *print_out_ptr;$/;"	v	file:
 print_timex	modules/timer/timer.c	/^void print_timex(){$/;"	f
-printf	drivers/dw1000/dw1000.c	20;"	d	file:
-printf	drivers/dw1000/dw1000.c	28;"	d	file:
-printf	drivers/dw1000/dw1000.c	32;"	d	file:
-printf	drivers/dw1000/dw1000_ranging.c	11;"	d	file:
+printf	drivers/dw1000/dw1000.c	23;"	d	file:
+printf	drivers/dw1000/dw1000.c	31;"	d	file:
+printf	drivers/dw1000/dw1000.c	35;"	d	file:
+printf	drivers/dw1000/dw1000_ranging.c	13;"	d	file:
 printf	drivers/dw1000/dw1000_ranging.c	18;"	d	file:
-printf	drivers/dw1000/dw1000_ranging.c	23;"	d	file:
-printf	drivers/dw1000/dw1000_ranging.h	22;"	d
-printf	drivers/dw1000/dw1000_ranging.h	27;"	d
-printf	main.c	19;"	d	file:
+printf	drivers/dw1000/dw1000_ranging.c	6;"	d	file:
+printf	drivers/dw1000/dw1000_ranging.h	28;"	d
+printf	drivers/dw1000/dw1000_ranging.h	33;"	d
+printf	main.c	21;"	d	file:
 printf	modules/timer/timer.c	14;"	d	file:
 printf	modules/timer/timer.c	21;"	d	file:
 ptrGetBootloaderVersion	modules/version_information/src/version_information.c	/^const uint8_t *ptrGetBootloaderVersion(void)$/;"	f
 ptrGetFirmwareVersion	modules/version_information/src/version_information.c	/^const uint8_t *ptrGetFirmwareVersion(void)$/;"	f
 ptrGetUniqueID	modules/version_information/src/version_information.c	/^const uint8_t *ptrGetUniqueID(void)$/;"	f
+range_all_anchors	drivers/dw1000/fulhacket.c	/^void range_all_anchors(dw1000_driver_t *dw ,$/;"	f
+rangerRole	drivers/dw1000/fulhacket.h	/^}rangerRole;$/;"	t	typeref:enum:__anon29
 ranging	drivers/dw1000/dw1000.h	/^    bool    ranging;$/;"	m	struct:__anon11
 ranging_callback	drivers/dw1000/dw1000_ranging.c	/^static ranging_callback_func ranging_callback = default_cb;$/;"	v	file:
 ranging_callback_func	drivers/dw1000/dw1000_ranging.h	/^typedef void (*ranging_callback_func)(dw1000_driver_t *, ranging_result_msg_t *);$/;"	t
@@ -1340,6 +1364,9 @@ spi_transfer_finished	drivers/dw1000/dw1000_hal.h	/^    bool (*spi_transfer_fini
 src_addr	drivers/dw1000/dw1000_ranging.h	/^    uint8_t src_addr[FCR_ADDRESS_LEN];$/;"	m	struct:__anon7
 src_addr	drivers/dw1000/dw1000_ranging.h	/^    uint8_t src_addr[FCR_ADDRESS_LEN];$/;"	m	struct:__anon8
 src_addr	drivers/dw1000/dw1000_ranging.h	/^    uint8_t src_addr[FCR_ADDRESS_LEN];$/;"	m	struct:__anon9
+start_chain_range_thd	drivers/dw1000/fulhacket.c	/^void start_chain_range_thd(void){$/;"	f
+start_interrupt_handler	exti.c	/^void start_interrupt_handler(){$/;"	f
+start_ranging_chain	drivers/dw1000/fulhacket.c	/^void start_ranging_chain(dw1000_driver_t *dw){$/;"	f
 start_thd	exti.c	/^void start_thd(void){$/;"	f
 start_timer	modules/timer/timer.c	/^void start_timer(my_timer_t *timer){$/;"	f
 start_timex	modules/timer/timer.c	/^void start_timex(){$/;"	f
@@ -1410,4 +1437,4 @@ vcom_strings	modules/usb/inc/usb_desc.h	/^static const USBDescriptor vcom_string
 vcom_strings	modules/usb/usb_related.c	/^static const USBDescriptor vcom_strings[] = {$/;"	v	file:
 wait_us	drivers/dw1000/dw1000_hal.h	/^    void (*wait_us)(struct dw1000_hal_t *self, int us);$/;"	m	struct:dw1000_hal_t
 wccrp	drivers/eicu/lld/eicu_lld.h	/^  volatile uint32_t *wccrp[4];$/;"	m	struct:EICUDriver
-width_cb	drivers/eicu/lld/eicu_lld.h	/^  eicucallback_t width_cb;$/;"	m	struct:__anon33
+width_cb	drivers/eicu/lld/eicu_lld.h	/^  eicucallback_t width_cb;$/;"	m	struct:__anon34

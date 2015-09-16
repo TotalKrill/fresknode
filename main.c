@@ -75,11 +75,6 @@ int main(void)
     //enable interrupt handler
     start_interrupt_handler();
 
-    bool sender = false;
-    //if(palReadPad(GPIOC, GPIOC_PIN5) == PAL_HIGH){
-    if(true){
-        sender = true;
-    }
 
     dw1000_conf_t config;
     rangerRole role = get_role(devid);
@@ -102,6 +97,10 @@ int main(void)
         case NODE2:
             config.shortaddr.u16 = 5;
             break;
+        default:
+            config.shortaddr.u16 = 5;
+            break;
+
     }
 
 
@@ -249,4 +248,19 @@ void HardFault_Handler(unsigned long *hardfault_args){
    palTogglePad(GPIOC, GPIOC_LED3);
 
    }
+
+   (void) stacked_r0;
+   (void) stacked_r1;
+   (void) stacked_r2;
+   (void) stacked_r3;
+   (void) stacked_r12;
+   (void) stacked_lr;
+   (void) stacked_pc;
+   (void) stacked_psr;
+   (void) _CFSR;
+   (void) _HFSR;
+   (void) _DFSR;
+   (void) _AFSR;
+   (void) _MMAR;
+   (void) _BFAR;
 }

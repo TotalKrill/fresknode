@@ -314,12 +314,44 @@ static const SerialUSBConfig serusbcfg = {
 /* Command line related.                                                     */
 /*===========================================================================*/
 
-#define TEST_WA_SIZE    THD_WA_SIZE(256)
+#define INPUT_WA_SIZE    THD_WA_SIZE(256)
+static THD_WORKING_AREA(myInputWorkingArea, 128);
 
-void usbstartup(void){
+
+static dw1000_driver_t *usb_dw;
+
+static THD_FUNCTION(myUsbInput, arg) {
+    char ctrl;
+    //chThdSleepMilliseconds(20000);
+    while (true) {
+        if (SDU1.config->usbp->state == USB_ACTIVE)
+        {
+            ctrl = chnGetTimeout(&SDU1, TIME_INFINITE);
+            switch(ctrl){
+                case 's':
+                    printf("Setting hal to lowspeed \n\r");
+                    usb_dw->config->hal->set_speed(usb_dw->config->hal, HAL_LOWSPEED);
+                    break;
+                case 'S':
+                    printf("Setting hal to highspeed \n\r");
+                    usb_dw->config->hal->set_speed(usb_dw->config->hal, HAL_HIGHSPEED);
+                    break;
+                case 't':
+                    printf("testing\n\r");
+                default:
+                    break;
+            }
+        }
+        else{
+            chThdSleepMilliseconds(1000);
+        }
+    }
+}
+void usbstartup(dw1000_driver_t *driver){
 
     sduObjectInit(&SDU1);
     sduStart(&SDU1, &serusbcfg);
+    usb_dw = driver;
     /*
      * Activates the USB driver and then the USB bus pull-up on D+.
      * Note, a delay is inserted in order to not have to disconnect the cable
@@ -329,5 +361,12 @@ void usbstartup(void){
     chThdSleepMilliseconds(1000);
     usbStart(serusbcfg.usbp, &usbcfg);
     usbConnectBus(serusbcfg.usbp);
+    chThdCreateStatic(
+            myInputWorkingArea,
+            sizeof(myInputWorkingArea),
+            NORMALPRIO,  /* Initial priority.    */
+            myUsbInput,    /* Thread function.     */
+            NULL);       /* Thread parameter.    */
 
 }
+

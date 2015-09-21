@@ -29,7 +29,29 @@ extern dw1000_hal_t default_dw1000_hal;
 
 
 dw1000_driver_t dw;
-uint16_t counter[12];
+
+typedef struct {
+    uint16_t phr_error;
+    uint16_t rsd_error;
+    uint16_t frame_check_good;
+    uint16_t frame_check_error;
+    uint16_t frame_filter_rejection;
+    uint16_t rx_overruns;
+    uint16_t sfd_timeout;
+    uint16_t preamble_timeout;
+    uint16_t rx_frame_wait;
+    uint16_t tx_frame_sent;
+    uint16_t half_period;
+    uint16_t tx_powerup;
+}dw1000_counter_t;
+
+typedef union{
+    uint16_t array[12];
+    dw1000_counter_t counters;
+}counter_union;
+
+counter_union counter;
+
 dw1000_euid_t devid;
 
 void get_euid(void){
@@ -61,7 +83,7 @@ int main(void)
     chSysInit();
 
     // enable usb
-    usbstartup();
+    usbstartup(&dw);
 
     get_euid();
 
@@ -77,7 +99,7 @@ int main(void)
 
 
     dw1000_conf_t config;
-    rangerRole role = get_role(devid);
+    volatile rangerRole role = get_role(devid);
     switch(role){
         case ANCHOR0:
             config.shortaddr.u16 = 0;
@@ -126,6 +148,9 @@ int main(void)
     if(role == ANCHOR0){
     //    set_ranging_callback(calibration_cb);
     }
+    else if( role == NODE1){
+        set_ranging_callback(chain_range_callback);
+    }
     else{
     }
 
@@ -133,53 +158,57 @@ int main(void)
     uint16_t sleep =1000;
     while(1)
     {
-        //palTogglePad(GPIOC, GPIOC_PIN8);
-        chThdSleepMilliseconds(sleep);
+        palTogglePad(GPIOC, GPIOC_LED1);
         dw1000_shortaddr_t dst;
-        printf("euid: 0x%2x%2x%2x%2x%2x%2x%2x%2x \n\r",
-                devid.u8[0],
-                devid.u8[1],
-                devid.u8[2],
-                devid.u8[3],
-                devid.u8[4],
-                devid.u8[5],
-                devid.u8[6],
-                devid.u8[7]
-              );
 
 
-        if(role == ANCHOR0){
+        if( role == ANCHOR0  ) {
             dst.u16 = 0xFFFF;
+            //dst.u16 = 4;
+            //TODO: invent better way of pingin the nodes
             request_ranging(&dw, dst);
+            chThdSleepMilliseconds(sleep);
+        }
+        else if(role == NODE3){
+            dst.u16 = 4;
+            //request_ranging(&dw, dst);
+            chThdSleepMilliseconds(50);
+        }
+        else{
+            chThdSleepMilliseconds(50);
+            //dw1000_receive(&dw);
         }
 
-        dw1000_get_event_counters(&default_dw1000_hal, counter);
-        if (per_loop == 100 && false){   // never run
+        //dw1000_get_event_counters(&default_dw1000_hal, counter.array);
+        if (per_loop == 100){   // never run
+            //dw1000_print_config(&dw);
             per_loop = 0;
              printf("    PHR_ERRORS:    %u \n\r",
-                     counter[PHR_ERRORS]);
+                     counter.array[PHR_ERRORS]);
              printf("    RSD_ERRORS:    %u \n\r",
-                     counter[RSD_ERRORS]);
+                     counter.array[RSD_ERRORS]);
              printf("    FCS_GOOD:      %u \n\r",
-                     counter[FCS_GOOD]);
+                     counter.array[FCS_GOOD]);
              printf("    FCS_ERRORS:    %u \n\r",
-                     counter[FCS_ERRORS]);
+                     counter.array[FCS_ERRORS]);
              printf("    FILTER_REJ:    %u \n\r",
-                     counter[FILTER_REJECTIONS]);
+                     counter.array[FILTER_REJECTIONS]);
              printf("    RX_OVERRUNS:   %u \n\r",
-                     counter[RX_OVERRUNS]);
+                     counter.array[RX_OVERRUNS]);
              printf("    SFD_TO:        %u \n\r",
-                     counter[SFD_TIMEOUTS]);
+                     counter.array[SFD_TIMEOUTS]);
              printf("    PREAMBLE_TO:   %u \n\r",
-                     counter[PREAMBLE_TIMEOUTS]);
+                     counter.array[PREAMBLE_TIMEOUTS]);
              printf("    RX_TIMEOUTS:   %u \n\r",
-                     counter[RX_TIMEOUTS]);
+                     counter.array[RX_TIMEOUTS]);
              printf("    TX_SENT:       %u \n\r",
-                     counter[TX_SENT]);
+                     counter.array[TX_SENT]);
              printf("    HPWARN:        %u \n\r",
-                     counter[HALF_PERIOD_WARNINGS]);
+                     counter.array[HALF_PERIOD_WARNINGS]);
              printf("    TX_PWRUP_WARN: %u \n\r",
-                     counter[TX_PWRUP_WARNINGS]);
+                     counter.array[TX_PWRUP_WARNINGS]);
+
+//             dw1000_receive(&dw);
         }
         per_loop++;
 

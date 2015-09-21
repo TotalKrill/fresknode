@@ -114,7 +114,7 @@ DLIBS	Makefile	/^DLIBS =$/;"	m
 DRIVERS_DIR	drivers/drivers.mk	/^DRIVERS_DIR = .\/drivers$/;"	m
 DW1000INC	drivers/dw1000/dw1000.mk	/^DW1000INC= $(DRIVERS_DIR)\/dw1000$/;"	m
 DW1000SRC	drivers/dw1000/dw1000.mk	/^DW1000SRC = $(DRIVERS_DIR)\/dw1000\/dw1000.c \\$/;"	m
-DW1000_ANTENNA_DELAY	drivers/dw1000/dw1000_ranging.h	94;"	d
+DW1000_ANTENNA_DELAY	drivers/dw1000/dw1000_ranging.h	90;"	d
 DW1000_CHANNEL_1	drivers/dw1000/dw1000_lld.h	/^    DW1000_CHANNEL_1        = 1,$/;"	e	enum:__anon16
 DW1000_CHANNEL_2	drivers/dw1000/dw1000_lld.h	/^    DW1000_CHANNEL_2        = 2,$/;"	e	enum:__anon16
 DW1000_CHANNEL_3	drivers/dw1000/dw1000_lld.h	/^    DW1000_CHANNEL_3        = 3,$/;"	e	enum:__anon16
@@ -214,7 +214,7 @@ DW1000_PRF_16_MHZ	drivers/dw1000/dw1000_lld.h	/^    DW1000_PRF_16_MHZ  = 0x01,$/
 DW1000_PRF_64_MHZ	drivers/dw1000/dw1000_lld.h	/^    DW1000_PRF_64_MHZ  = 0x02,$/;"	e	enum:__anon21
 DW1000_RANGING	drivers/dw1000/dw1000.h	/^    DW1000_RANGING,$/;"	e	enum:__anon10
 DW1000_RANGING_BIT	drivers/dw1000/dw1000_reg.h	301;"	d
-DW1000_RANGING_DELAY_VAL	drivers/dw1000/dw1000_ranging.h	91;"	d
+DW1000_RANGING_DELAY_VAL	drivers/dw1000/dw1000_ranging.h	87;"	d
 DW1000_REGISTER_DEFINITIONS_H_	drivers/dw1000/dw1000_reg.h	26;"	d
 DW1000_REG_ACC_MEM	drivers/dw1000/dw1000_reg.h	196;"	d
 DW1000_REG_ACK_RESP_T	drivers/dw1000/dw1000_reg.h	156;"	d
@@ -269,6 +269,7 @@ DW1000_RESERVED7	drivers/dw1000/dw1000_reg.h	160;"	d
 DW1000_RESERVED8	drivers/dw1000/dw1000_reg.h	176;"	d
 DW1000_RESERVED9	drivers/dw1000/dw1000_reg.h	180;"	d
 DW1000_RX	drivers/dw1000/dw1000.h	/^    DW1000_RX,$/;"	e	enum:__anon10
+DW1000_RX_BUF_SIZE	drivers/dw1000/dw1000.h	11;"	d
 DW1000_SFD_802_15_4	drivers/dw1000/dw1000_lld.h	/^    DW1000_SFD_802_15_4             = 1,$/;"	e	enum:__anon18
 DW1000_SFD_DECAWAVE	drivers/dw1000/dw1000_lld.h	/^    DW1000_SFD_DECAWAVE             = 2,$/;"	e	enum:__anon18
 DW1000_SFD_USER	drivers/dw1000/dw1000_lld.h	/^    DW1000_SFD_USER                 = 3,$/;"	e	enum:__anon18
@@ -365,8 +366,9 @@ DW1000_TXPWR_FINE	drivers/dw1000/dw1000_reg.h	313;"	d
 DW1000_TXPWR_OFF	drivers/dw1000/dw1000_reg.h	311;"	d
 DW1000_TX_PWR_MAX	drivers/dw1000/dw1000_reg.h	315;"	d
 DW1000_TX_PWR_MAX_ALL	drivers/dw1000/dw1000_reg.h	316;"	d
+DW1000_TX_WAIT	drivers/dw1000/dw1000.h	/^    DW1000_TX_WAIT,$/;"	e	enum:__anon10
 DW1000_UNINITIALIZED	drivers/dw1000/dw1000.h	/^    DW1000_UNINITIALIZED,$/;"	e	enum:__anon10
-DW1000_US_TO_TIME	drivers/dw1000/dw1000_ranging.h	90;"	d
+DW1000_US_TO_TIME	drivers/dw1000/dw1000_ranging.h	86;"	d
 EEPROMINC	drivers/eeprom/eeprom.mk	/^EEPROMINC = $(DRIVERS_DIR)\/eeprom\/$/;"	m
 EEPROMSRC	drivers/eeprom/eeprom.mk	/^EEPROMSRC = $(DRIVERS_DIR)\/eeprom\/eeprom.c$/;"	m
 EEPROM_H_	drivers/eeprom/eeprom.h	9;"	d
@@ -1152,7 +1154,7 @@ dw1000_get_pac	drivers/dw1000/dw1000_lld.c	/^uint8_t dw1000_get_pac(dw1000_hal_t
 dw1000_get_preamble_code	drivers/dw1000/dw1000_lld.c	/^dw1000_preamble_code_t dw1000_get_preamble_code(dw1000_hal_t *hal)$/;"	f
 dw1000_get_preamble_length	drivers/dw1000/dw1000_lld.c	/^uint8_t dw1000_get_preamble_length(dw1000_hal_t * hal)$/;"	f
 dw1000_get_prf	drivers/dw1000/dw1000_lld.c	/^uint8_t dw1000_get_prf(dw1000_hal_t *hal){$/;"	f
-dw1000_get_rx_package	drivers/dw1000/dw1000.c	/^uint16_t dw1000_get_rx_package(dw1000_driver_t *self, uint8_t *rxbuf){$/;"	f
+dw1000_get_rx_buffer	drivers/dw1000/dw1000_lld.c	/^void dw1000_get_rx_buffer(dw1000_hal_t *hal, uint8_t *rxbuf, uint16_t length){$/;"	f
 dw1000_get_rx_timestamp	drivers/dw1000/dw1000_lld.c	/^uint64_t dw1000_get_rx_timestamp(dw1000_hal_t *hal){$/;"	f
 dw1000_get_sfd	drivers/dw1000/dw1000_lld.c	/^uint8_t dw1000_get_sfd(dw1000_hal_t *hal)$/;"	f
 dw1000_get_systime	drivers/dw1000/dw1000_lld.c	/^uint64_t dw1000_get_systime(dw1000_hal_t *hal){$/;"	f
@@ -1160,6 +1162,7 @@ dw1000_get_tx_timestamp	drivers/dw1000/dw1000_lld.c	/^uint64_t dw1000_get_tx_tim
 dw1000_hal_init	drivers/dw1000/dw1000_hal.c	/^bool dw1000_hal_init(dw1000_hal_t *self){$/;"	f
 dw1000_hal_t	drivers/dw1000/dw1000_hal.h	/^typedef struct dw1000_hal_t$/;"	s
 dw1000_hal_t	drivers/dw1000/dw1000_hal.h	/^} dw1000_hal_t;$/;"	t	typeref:struct:dw1000_hal_t
+dw1000_handle_rx	drivers/dw1000/dw1000.c	/^bool dw1000_handle_rx(dw1000_driver_t *self){$/;"	f
 dw1000_init	drivers/dw1000/dw1000.c	/^void dw1000_init(dw1000_driver_t *self){$/;"	f
 dw1000_irq_event	drivers/dw1000/dw1000.c	/^void dw1000_irq_event(dw1000_driver_t *self){$/;"	f
 dw1000_msg_t	drivers/dw1000/dw1000.h	/^} dw1000_msg_t;$/;"	t	typeref:struct:__anon11
@@ -1168,6 +1171,7 @@ dw1000_panid_t	drivers/dw1000/dw1000_lld.h	/^} dw1000_panid_t;$/;"	t	typeref:uni
 dw1000_preamble_code_t	drivers/dw1000/dw1000_lld.h	/^} dw1000_preamble_code_t;$/;"	t	typeref:enum:__anon23
 dw1000_preamble_length_t	drivers/dw1000/dw1000_lld.h	/^}dw1000_preamble_length_t;$/;"	t	typeref:enum:__anon22
 dw1000_preamble_t	drivers/dw1000/dw1000_lld.h	/^} dw1000_preamble_t;$/;"	t	typeref:struct:__anon24
+dw1000_prepare_delayed_send	drivers/dw1000/dw1000.c	/^bool dw1000_prepare_delayed_send(   dw1000_driver_t *self,$/;"	f
 dw1000_prf_t	drivers/dw1000/dw1000_lld.h	/^}dw1000_prf_t;$/;"	t	typeref:enum:__anon21
 dw1000_read_16bit	drivers/dw1000/dw1000_lld.c	/^inline uint16_t dw1000_read_16bit($/;"	f
 dw1000_read_32bit	drivers/dw1000/dw1000_lld.c	/^inline uint32_t dw1000_read_32bit($/;"	f
@@ -1213,6 +1217,7 @@ dw1000_write_32bit	drivers/dw1000/dw1000_lld.c	/^inline void dw1000_write_32bit(
 dw1000_write_64bit	drivers/dw1000/dw1000_lld.c	/^inline void dw1000_write_64bit($/;"	f
 dw1000_write_8bit	drivers/dw1000/dw1000_lld.c	/^inline void dw1000_write_8bit($/;"	f
 dw1000_write_config	drivers/dw1000/dw1000_lld.c	/^void dw1000_write_config(dw1000_hal_t *hal, dw1000_conf_t *conf){$/;"	f
+dw1000_write_msg	drivers/dw1000/dw1000.c	/^void dw1000_write_msg(dw1000_driver_t *self, dw1000_msg_t *msg){$/;"	f
 dw1000_write_register	drivers/dw1000/dw1000_lld.c	/^void dw1000_write_register($/;"	f
 eeprom_init	drivers/eeprom/eeprom.c	/^void eeprom_init(void){$/;"	f
 eeprom_read	drivers/eeprom/eeprom.c	/^void eeprom_read(uint8_t address, uint8_t *data, uint32_t length){$/;"	f
@@ -1340,6 +1345,7 @@ receive	drivers/dw1000/dw1000_hal.h	/^    bool (*receive)(struct dw1000_hal_t *s
 request_ranging	drivers/dw1000/dw1000_ranging.c	/^void request_ranging( dw1000_driver_t *dw, dw1000_shortaddr_t destination){$/;"	f
 request_timestamp	drivers/dw1000/dw1000_ranging.h	/^    uint8_t request_timestamp[5];$/;"	m	struct:__anon8
 running	modules/timer/timer.h	/^        bool running;$/;"	m	struct:__anon2
+rxbuf	drivers/dw1000/dw1000.h	/^    uint8_t rxbuf[DW1000_RX_BUF_SIZE];$/;"	m	struct:dw1000_driver_t
 rxtimestamp	drivers/dw1000/dw1000.h	/^    uint64_t rxtimestamp[DW1000_STORED_TIMESTAMPS];$/;"	m	struct:dw1000_driver_t
 select	drivers/dw1000/dw1000_hal.h	/^    bool (*select)(struct dw1000_hal_t *self);$/;"	m	struct:dw1000_hal_t
 send	drivers/dw1000/dw1000.h	/^    void (*send)(struct dw1000_driver_t *self, dw1000_msg_t *msg);$/;"	m	struct:dw1000_driver_t

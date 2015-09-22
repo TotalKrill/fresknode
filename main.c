@@ -30,27 +30,8 @@ extern dw1000_hal_t default_dw1000_hal;
 
 dw1000_driver_t dw;
 
-typedef struct {
-    uint16_t phr_error;
-    uint16_t rsd_error;
-    uint16_t frame_check_good;
-    uint16_t frame_check_error;
-    uint16_t frame_filter_rejection;
-    uint16_t rx_overruns;
-    uint16_t sfd_timeout;
-    uint16_t preamble_timeout;
-    uint16_t rx_frame_wait;
-    uint16_t tx_frame_sent;
-    uint16_t half_period;
-    uint16_t tx_powerup;
-}dw1000_counter_t;
 
-typedef union{
-    uint16_t array[12];
-    dw1000_counter_t counters;
-}counter_union;
-
-counter_union counter;
+dw1000_counter_u counter;
 
 dw1000_euid_t devid;
 
@@ -126,7 +107,7 @@ int main(void)
     }
 
 
-    dw.state = UNINITIALIZED;
+    dw.state = DW1000_UNINITIALIZED;
 
     dw1000_generate_recommended_conf(
             &default_dw1000_hal,
@@ -166,7 +147,7 @@ int main(void)
             dst.u16 = 0xFFFF;
             //dst.u16 = 4;
             //TODO: invent better way of pingin the nodes
-            request_ranging(&dw, dst);
+            //request_ranging(&dw, dst);
             chThdSleepMilliseconds(sleep);
         }
         else if(role == NODE3){
@@ -174,14 +155,18 @@ int main(void)
             //request_ranging(&dw, dst);
             chThdSleepMilliseconds(50);
         }
+        else if(role == NODE1){
+            chThdSleepMilliseconds(sleep);
+            chain_range(&dw);
+        }
         else{
             chThdSleepMilliseconds(50);
             //dw1000_receive(&dw);
         }
 
-        //dw1000_get_event_counters(&default_dw1000_hal, counter.array);
-        if (per_loop == 100){   // never run
-            //dw1000_print_config(&dw);
+        if (per_loop == 100 && false){   // never run
+            dw1000_get_event_counters(&default_dw1000_hal, counter.array);
+            dw1000_print_config(&dw);
             per_loop = 0;
              printf("    PHR_ERRORS:    %u \n\r",
                      counter.array[PHR_ERRORS]);

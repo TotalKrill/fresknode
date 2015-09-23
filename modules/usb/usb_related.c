@@ -322,6 +322,7 @@ static dw1000_driver_t *usb_dw;
 
 static THD_FUNCTION(myUsbInput, arg) {
     char ctrl;
+    (void)arg;
     dw1000_counter_u count;
     while (true) {
         if (SDU1.config->usbp->state == USB_ACTIVE)

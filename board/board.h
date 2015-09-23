@@ -246,10 +246,10 @@
  * PA14 - SWCLK                     (input pullup).
  * PA15 - PIN15                     (input pullup).
  */
-#define VAL_GPIOA_MODER    (PIN_MODE_ALTERNATE(GPIOA_AUX3_TX) |      \
-                            PIN_MODE_ALTERNATE(GPIOA_AUX3_RX) |      \
-                            PIN_MODE_ALTERNATE(GPIOA_CONTROL_IN1) |  \
-                            PIN_MODE_ALTERNATE(GPIOA_CONTROL_IN6) |  \
+#define VAL_GPIOA_MODER    (PIN_MODE_INPUT(GPIOA_AUX3_TX) |      \
+                            PIN_MODE_INPUT(GPIOA_AUX3_RX) |      \
+                            PIN_MODE_INPUT(GPIOA_CONTROL_IN1) |  \
+                            PIN_MODE_INPUT(GPIOA_CONTROL_IN6) |  \
                             PIN_MODE_OUTPUT(GPIOA_RF_SEL) |          \
                             PIN_MODE_ALTERNATE(GPIOA_RF_SCLK) |      \
                             PIN_MODE_ALTERNATE(GPIOA_RF_MISO) |      \
@@ -303,11 +303,11 @@
                             PIN_PUPDR_PULLDOWN(GPIOA_CONTROL_IN6) |  \
                             PIN_PUPDR_FLOATING(GPIOA_RF_SEL) |       \
                             PIN_PUPDR_FLOATING(GPIOA_RF_SCLK) |      \
-                            PIN_PUPDR_FLOATING(GPIOA_RF_MISO) |      \
+                            PIN_PUPDR_PULLUP(GPIOA_RF_MISO) |      \
                             PIN_PUPDR_FLOATING(GPIOA_RF_MOSI) |      \
                             PIN_PUPDR_PULLUP(GPIOA_PIN8) |           \
                             PIN_PUPDR_PULLDOWN(GPIOA_VBUS_FS) |      \
-                            PIN_PUPDR_FLOATING(GPIOA_PIN10) |        \
+                            PIN_PUPDR_PULLUP(GPIOA_PIN10) |        \
                             PIN_PUPDR_FLOATING(GPIOA_OTG_FS_DM) |    \
                             PIN_PUPDR_FLOATING(GPIOA_OTG_FS_DP) |    \
                             PIN_PUPDR_FLOATING(GPIOA_SWDIO) |        \
@@ -369,18 +369,18 @@
  * PB14 - CONTROL_IN2      (input pullup).
  * PB15 - CONTROL_IN3      (input pullup).
  */
-#define VAL_GPIOB_MODER    (PIN_MODE_ALTERNATE(GPIOB_CONTROL_IN5) |  \
-                            PIN_MODE_ALTERNATE(GPIOB_CONTROL_IN4) |  \
+#define VAL_GPIOB_MODER    (PIN_MODE_INPUT(GPIOB_CONTROL_IN5) |  \
+                            PIN_MODE_INPUT(GPIOB_CONTROL_IN4) |  \
                             PIN_MODE_INPUT(GPIOB_PIN2) |             \
                             PIN_MODE_INPUT(GPIOB_PIN3) |             \
                             PIN_MODE_INPUT(GPIOB_PIN4) |             \
                             PIN_MODE_INPUT(GPIOB_PIN5) |             \
-                            PIN_MODE_ALTERNATE(GPIOB_ENGINE_PWM4) |  \
-                            PIN_MODE_ALTERNATE(GPIOB_ENGINE_PWM3) |  \
-                            PIN_MODE_ALTERNATE(GPIOB_ENGINE_PWM2) |  \
-                            PIN_MODE_ALTERNATE(GPIOB_ENGINE_PWM1) |  \
-                            PIN_MODE_ALTERNATE(GPIOB_SENSORS_SCL) |  \
-                            PIN_MODE_ALTERNATE(GPIOB_SENSORS_SDA) |  \
+                            PIN_MODE_INPUT(GPIOB_ENGINE_PWM4) |  \
+                            PIN_MODE_INPUT(GPIOB_ENGINE_PWM3) |  \
+                            PIN_MODE_INPUT(GPIOB_ENGINE_PWM2) |  \
+                            PIN_MODE_INPUT(GPIOB_ENGINE_PWM1) |  \
+                            PIN_MODE_INPUT(GPIOB_SENSORS_SCL) |  \
+                            PIN_MODE_INPUT(GPIOB_SENSORS_SDA) |  \
                             PIN_MODE_OUTPUT(GPIOB_EEPROM_CS) |       \
                             PIN_MODE_ALTERNATE(GPIOB_EEPROM_SCK) |       \
                             PIN_MODE_ALTERNATE(GPIOB_EEPROM_MISO) |  \
@@ -420,8 +420,8 @@
                             PIN_OSPEED_100M(GPIOB_EEPROM_MISO) |     \
                             PIN_OSPEED_100M(GPIOB_EEPROM_MOSI))
 
-#define VAL_GPIOB_PUPDR    (PIN_PUPDR_PULLDOWN(GPIOB_CONTROL_IN5) |  \
-                            PIN_PUPDR_PULLDOWN(GPIOB_CONTROL_IN4) |  \
+#define VAL_GPIOB_PUPDR    (PIN_PUPDR_PULLUP(GPIOB_CONTROL_IN5) |  \
+                            PIN_PUPDR_PULLUP(GPIOB_CONTROL_IN4) |  \
                             PIN_PUPDR_PULLUP(GPIOB_PIN2) |           \
                             PIN_PUPDR_PULLUP(GPIOB_PIN3) |           \
                             PIN_PUPDR_PULLUP(GPIOB_PIN4) |           \
@@ -501,10 +501,10 @@
                             PIN_MODE_OUTPUT(GPIOC_LED2) |  \
                             PIN_MODE_OUTPUT(GPIOC_LED3) |  \
                             PIN_MODE_OUTPUT(GPIOC_LED1) |  \
-                            PIN_MODE_OUTPUT(GPIOC_ENGINE_PWM5) |  \
-                            PIN_MODE_ALTERNATE(GPIOC_AUX1_TX) |      \
-                            PIN_MODE_ALTERNATE(GPIOC_AUX1_RX) |      \
-                            PIN_MODE_ALTERNATE(GPIOC_AUX2_TX) |      \
+                            PIN_MODE_INPUT(GPIOC_ENGINE_PWM5) |  \
+                            PIN_MODE_INPUT(GPIOC_AUX1_TX) |      \
+                            PIN_MODE_INPUT(GPIOC_AUX1_RX) |      \
+                            PIN_MODE_INPUT(GPIOC_AUX2_TX) |      \
                             PIN_MODE_INPUT(GPIOC_IRQ_MAG) |          \
                             PIN_MODE_INPUT(GPIOC_IRQ_MPU) |          \
                             PIN_MODE_INPUT(GPIOC_IRQ_RF))
@@ -617,7 +617,7 @@
  */
  #define VAL_GPIOD_MODER   (PIN_MODE_INPUT(GPIOD_PIN0) |             \
                             PIN_MODE_INPUT(GPIOD_PIN1) |             \
-                            PIN_MODE_ALTERNATE(GPIOD_AUX2_RX) |      \
+                            PIN_MODE_INPUT(GPIOD_AUX2_RX) |      \
                             PIN_MODE_INPUT(GPIOD_PIN3) |             \
                             PIN_MODE_INPUT(GPIOD_PIN4) |             \
                             PIN_MODE_INPUT(GPIOD_PIN5) |             \

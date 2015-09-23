@@ -32,10 +32,9 @@ const EXTConfig extcfg = {
 THD_FUNCTION(myThread, arg) {
   (void)arg;
   while (true) {
-    msg_t msg;
     /* Waiting for the IRQ to happen.*/
     chSysLock();
-    msg = chThdSuspendS(&trp);
+    chThdSuspendS(&trp);
     chSysUnlock();
 
     /* Perform processing here.*/
@@ -58,8 +57,8 @@ void extcb1(EXTDriver *extp, expchannel_t channel) {
 }
 
 void start_interrupt_handler(){
-    extStart(&EXTD1, &extcfg);
     // start thread to be activated by interrupt.
     start_thd();
-     }
+    extStart(&EXTD1, &extcfg);
+}
 

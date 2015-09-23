@@ -269,9 +269,9 @@ OCD_TARGET = stm32f4x
 OCD_INTERFFACE = stlink-v2.cfg
 GDB = arm-none-eabi-gdb
 OPENOCD = openocd
-GDB_FLAGS = -ex "target remote | $(OPENOCD) -c \"gdb_port pipe; log_output openocd.log\" -f interface/$(OCD_INTERFFACE) -f target/$(OCD_TARGET).cfg" -ex "load" -ex "monitor reset halt"
+GDB_FLAGS = -ex "target remote | $(OPENOCD) -c \"gdb_port pipe\" -f interface/$(OCD_INTERFFACE) -f target/$(OCD_TARGET).cfg" -ex "load" -ex "monitor reset halt"
 
-RTOS_FLAGS = -ex "target remote | $(OPENOCD) -c \"gdb_port pipe; log_output openocd.log\" -f interface/$(OCD_INTERFFACE) -f target/$(OCD_TARGET).cfg" -ex "load" -ex "monitor reset halt"
+RTOS_FLAGS = -ex "target remote | $(OPENOCD) -c \"gdb_port pipe;" -f interface/$(OCD_INTERFFACE) -f target/$(OCD_TARGET).cfg" -ex "load" -ex "monitor reset halt"
 gdb: build/$(PROJECT).elf
 	$(GDB) build/$(PROJECT).elf $(GDB_FLAGS)
 rtos: build/$(PROJECT).elf

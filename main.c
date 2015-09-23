@@ -72,7 +72,7 @@ int main(void)
     vInitDebugPrint((BaseSequentialStream *) &SDU1);
 
     palClearPad(GPIOC, GPIOC_DW_RST);
-    chThdSleepMilliseconds(20);
+    chThdSleepMilliseconds(200);
     palSetPad(GPIOC, GPIOC_DW_RST);
 
     //enable interrupt handler
@@ -122,7 +122,7 @@ int main(void)
  // dw1000_set_antenna_delay(&default_dw1000_hal, 0);
 
     /* Fulhacket */
-    start_chain_range_thd();
+    //start_chain_range_thd();
 
     dw1000_receive(&dw);
 
@@ -130,17 +130,21 @@ int main(void)
     //    set_ranging_callback(calibration_cb);
     }
     else if( role == NODE1){
-        set_ranging_callback(chain_range_callback);
+        //set_ranging_callback(chain_range_callback);
+        ranging_calibration_setup(8107,50,100);
+        set_ranging_callback(calibration_cb);
     }
-    else{
+    else if( role == NODE3){
+            dw1000_set_antenna_delay(&default_dw1000_hal, 0);
     }
 
     int per_loop =0;
-    uint16_t sleep =1000;
+    uint16_t sleep =50;
+
+    dw1000_shortaddr_t dst;
     while(1)
     {
         palTogglePad(GPIOC, GPIOC_LED1);
-        dw1000_shortaddr_t dst;
 
 
         if( role == ANCHOR0  ) {
@@ -153,11 +157,14 @@ int main(void)
         else if(role == NODE3){
             dst.u16 = 4;
             //request_ranging(&dw, dst);
-            chThdSleepMilliseconds(50);
+            chThdSleepMilliseconds(1000);
         }
         else if(role == NODE1){
             chThdSleepMilliseconds(sleep);
-            chain_range(&dw);
+            dst.u16 = 5;
+            request_ranging(&dw, dst);
+
+            //chain_range(&dw);
         }
         else{
             chThdSleepMilliseconds(50);
@@ -196,11 +203,10 @@ int main(void)
 //             dw1000_receive(&dw);
         }
         per_loop++;
-
-
     }
-
 }
+
+
 void HardFault_Handler(unsigned long *hardfault_args){
    /**
  * HardFaultHandler_C:

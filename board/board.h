@@ -502,8 +502,8 @@
                             PIN_MODE_OUTPUT(GPIOC_LED3) |  \
                             PIN_MODE_OUTPUT(GPIOC_LED1) |  \
                             PIN_MODE_INPUT(GPIOC_ENGINE_PWM5) |  \
-                            PIN_MODE_INPUT(GPIOC_AUX1_TX) |      \
-                            PIN_MODE_INPUT(GPIOC_AUX1_RX) |      \
+                            PIN_MODE_ALTERNATE(GPIOC_AUX1_TX) |      \
+                            PIN_MODE_ALTERNATE(GPIOC_AUX1_RX) |      \
                             PIN_MODE_INPUT(GPIOC_AUX2_TX) |      \
                             PIN_MODE_INPUT(GPIOC_IRQ_MAG) |          \
                             PIN_MODE_INPUT(GPIOC_IRQ_MPU) |          \

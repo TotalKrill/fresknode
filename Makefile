@@ -278,7 +278,7 @@ rtos: build/$(PROJECT).elf
 	$(GDB) build/$(PROJECT).elf $(RTOS_FLAGS)
 
 includes:
-	@echo $(DBG_PRINT_INC)
+	@echo $(UARTSRC)
 
 #
 # End of GDB section

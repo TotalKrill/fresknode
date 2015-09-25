@@ -11,6 +11,7 @@
 #include "timer.h"
 #include "eeprom.h"
 #include "fulhacket.h"
+#include "my_uart.h"
 
 
 #include "chprintf.h"
@@ -78,6 +79,9 @@ int main(void)
     //enable interrupt handler
     start_interrupt_handler();
 
+    // start uart
+    start_serial();
+
 
     dw1000_conf_t config;
     volatile rangerRole role = get_role(devid);
@@ -135,7 +139,7 @@ int main(void)
         set_ranging_callback(calibration_cb);
     }
     else if( role == NODE3){
-            dw1000_set_antenna_delay(&default_dw1000_hal, 0);
+        dw1000_set_antenna_delay(&default_dw1000_hal, 0);
     }
 
     int per_loop =0;

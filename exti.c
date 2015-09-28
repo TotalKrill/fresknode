@@ -31,7 +31,9 @@ const EXTConfig extcfg = {
 
 THD_FUNCTION(myThread, arg) {
   (void)arg;
+    chRegSetThreadName("DW1000 interrupt thread");
   while (true) {
+
     /* Waiting for the IRQ to happen.*/
     chSysLock();
     chThdSuspendS(&trp);

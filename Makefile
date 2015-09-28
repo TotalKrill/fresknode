@@ -277,6 +277,9 @@ gdb: build/$(PROJECT).elf
 rtos: build/$(PROJECT).elf
 	$(GDB) build/$(PROJECT).elf $(RTOS_FLAGS)
 
+remote:
+	$(GDB) build/$(PROJECT).elf -x remote.gdb
+
 includes:
 	@echo $(UARTSRC)
 

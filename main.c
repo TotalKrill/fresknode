@@ -16,6 +16,7 @@
 
 #include "chprintf.h"
 #include "debug_print.h"
+
 extern BaseSequentialStream debug_print;
 extern SerialUSBDriver SDU1;
 
@@ -30,7 +31,6 @@ extern dw1000_hal_t default_dw1000_hal;
 
 
 dw1000_driver_t dw;
-
 
 dw1000_counter_u counter;
 
@@ -126,17 +126,19 @@ int main(void)
  // dw1000_set_antenna_delay(&default_dw1000_hal, 0);
 
     /* Fulhacket */
-    //start_chain_range_thd();
+    start_chain_range_thd();
 
     dw1000_receive(&dw);
 
     if(role == ANCHOR0){
     //    set_ranging_callback(calibration_cb);
     }
-    else if( role == NODE1){
-        //set_ranging_callback(chain_range_callback);
-        ranging_calibration_setup(8107,50,100);
-        set_ranging_callback(calibration_cb);
+    else if( role == NODE1)
+    {
+        set_ranging_callback(chain_range_callback);
+
+        //ranging_calibration_setup(8107,50,100);
+        //set_ranging_callback(calibration_cb);
     }
     else if( role == NODE3){
         dw1000_set_antenna_delay(&default_dw1000_hal, 0);
@@ -166,9 +168,9 @@ int main(void)
         else if(role == NODE1){
             chThdSleepMilliseconds(sleep);
             dst.u16 = 5;
-            request_ranging(&dw, dst);
+            //request_ranging(&dw, dst);
 
-            //chain_range(&dw);
+            chain_range(&dw);
         }
         else{
             chThdSleepMilliseconds(50);

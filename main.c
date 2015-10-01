@@ -167,7 +167,7 @@ int main(void)
         }
         else if(role == NODE1){
             chThdSleepMilliseconds(sleep);
-            dst.u16 = 5;
+            dst.u16 = 3;
             //request_ranging(&dw, dst);
 
             chain_range(&dw);

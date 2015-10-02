@@ -7,14 +7,36 @@ extern dw1000_driver_t dw;
 static THD_WORKING_AREA(mythreadwa,1024);
 static thread_reference_t trp = NULL;
 
+const EXTConfig extcfg = {
+  {
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_RISING_EDGE | EXT_CH_MODE_AUTOSTART | EXT_MODE_GPIOC, extcb1},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL},
+    {EXT_CH_MODE_DISABLED, NULL}
+  }
+};
+
 
 THD_FUNCTION(myThread, arg) {
   (void)arg;
+    chRegSetThreadName("DW1000 interrupt thread");
   while (true) {
-    msg_t msg;
+
     /* Waiting for the IRQ to happen.*/
     chSysLock();
-    msg = chThdSuspendS(&trp);
+    chThdSuspendS(&trp);
     chSysUnlock();
 
     /* Perform processing here.*/
@@ -36,4 +58,9 @@ void extcb1(EXTDriver *extp, expchannel_t channel) {
   chSysUnlockFromISR();
 }
 
+void start_interrupt_handler(){
+    // start thread to be activated by interrupt.
+    start_thd();
+    extStart(&EXTD1, &extcfg);
+}
 

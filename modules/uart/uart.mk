@@ -1,0 +1,3 @@
+UARTPATH = $(MODULE_DIR)/uart
+UARTSRC = $(UARTPATH)/my_uart.c
+UARTINC = $(UARTPATH)/

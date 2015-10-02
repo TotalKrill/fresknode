@@ -56,7 +56,7 @@ static const uint8_t vcom_configuration_descriptor_data[67] = {
             0x01,          /* bConfigurationValue.             */
             0,             /* iConfiguration.                  */
             0xC0,          /* bmAttributes (self powered).     */
-            50),           /* bMaxPower (100mA).               */
+            250),           /* bMaxPower (100mA).               */
     /* Interface Descriptor.*/
     USB_DESC_INTERFACE    (0x00,          /* bInterfaceNumber.                */
             0x00,          /* bAlternateSetting.               */
@@ -314,12 +314,74 @@ static const SerialUSBConfig serusbcfg = {
 /* Command line related.                                                     */
 /*===========================================================================*/
 
-#define TEST_WA_SIZE    THD_WA_SIZE(256)
+#define INPUT_WA_SIZE    THD_WA_SIZE(256)
+static THD_WORKING_AREA(myInputWorkingArea, 512);
 
-void usbstartup(void){
+
+static dw1000_driver_t *usb_dw;
+
+static THD_FUNCTION(myUsbInput, arg) {
+    char ctrl;
+    (void)arg;
+    dw1000_counter_u count;
+    while (true) {
+        if (SDU1.config->usbp->state == USB_ACTIVE)
+        {
+            ctrl = chnGetTimeout(&SDU1, TIME_INFINITE);
+            dw1000_hal_t *p_hal = usb_dw->config->hal;
+            switch(ctrl){
+                case 's':
+                    printf("Setting hal to lowspeed \n\r");
+                    usb_dw->config->hal->set_speed(usb_dw->config->hal, HAL_LOWSPEED);
+                    break;
+                case 'S':
+                    printf("Setting hal to highspeed \n\r");
+                    usb_dw->config->hal->set_speed(usb_dw->config->hal, HAL_HIGHSPEED);
+                    break;
+                case 't':
+                    printf("testing\n\r");
+                case 'i':
+                    dw1000_get_event_counters(p_hal, count.array);
+                    printf("    PHR_ERRORS:    %u \n\r",
+                            count.array[PHR_ERRORS]);
+                    printf("    RSD_ERRORS:    %u \n\r",
+                            count.array[RSD_ERRORS]);
+                    printf("    FCS_GOOD:      %u \n\r",
+                            count.array[FCS_GOOD]);
+                    printf("    FCS_ERRORS:    %u \n\r",
+                            count.array[FCS_ERRORS]);
+                    printf("    FILTER_REJ:    %u \n\r",
+                            count.array[FILTER_REJECTIONS]);
+                    printf("    RX_OVERRUNS:   %u \n\r",
+                            count.array[RX_OVERRUNS]);
+                    printf("    SFD_TO:        %u \n\r",
+                            count.array[SFD_TIMEOUTS]);
+                    printf("    PREAMBLE_TO:   %u \n\r",
+                            count.array[PREAMBLE_TIMEOUTS]);
+                    printf("    RX_TIMEOUTS:   %u \n\r",
+                            count.array[RX_TIMEOUTS]);
+                    printf("    TX_SENT:       %u \n\r",
+                            count.array[TX_SENT]);
+                    printf("    HPWARN:        %u \n\r",
+                            count.array[HALF_PERIOD_WARNINGS]);
+                    printf("    TX_PWRUP_WARN: %u \n\r",
+                            count.array[TX_PWRUP_WARNINGS]);
+                    break;
+                case 'r':
+                default:
+                    break;
+            }
+        }
+        else{
+            chThdSleepMilliseconds(1000);
+        }
+    }
+}
+void usbstartup(dw1000_driver_t *driver){
 
     sduObjectInit(&SDU1);
     sduStart(&SDU1, &serusbcfg);
+    usb_dw = driver;
     /*
      * Activates the USB driver and then the USB bus pull-up on D+.
      * Note, a delay is inserted in order to not have to disconnect the cable
@@ -330,4 +392,9 @@ void usbstartup(void){
     usbStart(serusbcfg.usbp, &usbcfg);
     usbConnectBus(serusbcfg.usbp);
 
+    //input thread
+    //
+    chThdCreateStatic( myInputWorkingArea, sizeof(myInputWorkingArea), NORMALPRIO,  myUsbInput, NULL);
+
 }
+

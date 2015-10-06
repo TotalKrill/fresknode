@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#iptables rules
+iptables -t nat -P OUTPUT ACCEPT
+iptables -t nat -P PREROUTING ACCEPT
+iptables -t nat -P POSTROUTING ACCEPT
+iptables -A POSTROUTING -t nat -s 10.10.10.0/24 -j MASQUERADE
+iptables -A FORWARD -t filter -o wlanint -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -t filter -i wlanint -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+#gief ip and netmask
+ip addr add 10.10.10.1/255.255.255.0 dev enp0s20u1u1u3
+
+#gief dhcpd server
+dhcpd enp0s20u1u1u3

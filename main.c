@@ -111,7 +111,7 @@ int main(void)
     }
 
 
-    dw.state = DW1000_UNINITIALIZED;
+    dw.state = DW1000_STATE_UNINITIALIZED;
 
     dw1000_generate_recommended_conf(
             &default_dw1000_hal,
@@ -126,7 +126,7 @@ int main(void)
  // dw1000_set_antenna_delay(&default_dw1000_hal, 0);
 
 
-    dw1000_receive(&dw);
+    dw1000_receive(&dw,0 ,0);
 
     if(role == ANCHOR0){
     //    set_ranging_callback(calibration_cb);
@@ -145,7 +145,7 @@ int main(void)
     }
 
     int per_loop =0;
-    uint16_t sleep =50;
+    uint16_t sleep =500;
 
     dw1000_shortaddr_t dst;
     while(1)
@@ -167,7 +167,7 @@ int main(void)
         }
         else if(role == NODE1){
             chThdSleepMilliseconds(sleep);
-            dst.u16 = 3;
+            dst.u16 = 0;
             //request_ranging(&dw, dst);
 
             chain_range(&dw);
@@ -177,7 +177,7 @@ int main(void)
             //dw1000_receive(&dw);
         }
 
-        if (per_loop == 100 && false){   // never run
+        if (per_loop == 10 ){   // never run
             dw1000_get_event_counters(&default_dw1000_hal, counter.array);
             dw1000_print_config(&dw);
             per_loop = 0;

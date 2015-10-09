@@ -172,12 +172,14 @@ int main(void)
 
             chain_range(&dw);
         }
-        else{
+        else
+        {
             chThdSleepMilliseconds(50);
             //dw1000_receive(&dw);
         }
 
-        if (per_loop == 10 ){   // never run
+        if (per_loop % 10 == 0 )
+        {
             dw1000_get_event_counters(&default_dw1000_hal, counter.array);
             dw1000_print_config(&dw);
             per_loop = 0;
@@ -207,6 +209,10 @@ int main(void)
                     counter.array[TX_PWRUP_WARNINGS]);
 
             //             dw1000_receive(&dw);
+        }
+        if (per_loop % 1000 == 0)
+        {
+
         }
         per_loop++;
     }

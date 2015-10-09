@@ -210,9 +210,11 @@ int main(void)
 
             //             dw1000_receive(&dw);
         }
-        if (per_loop % 1000 == 0)
+        if (per_loop % 100 == 0)
         {
-
+            dw1000_trx_off(dw.config->hal);
+            dw1000_softreset_rx(dw.config->hal);
+            dw1000_receive(&dw,0,0);
         }
         per_loop++;
     }

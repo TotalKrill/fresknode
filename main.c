@@ -144,7 +144,7 @@ int main(void)
         dw1000_set_antenna_delay(&default_dw1000_hal, 0);
     }
 
-    int per_loop =0;
+    int per_loop =1;
     uint16_t sleep =500;
 
     dw1000_shortaddr_t dst;
@@ -178,10 +178,9 @@ int main(void)
             //dw1000_receive(&dw);
         }
 
-        if (per_loop % 10 == 0 )
+        if (per_loop % 10 == 0 && false)
         {
             dw1000_get_event_counters(&default_dw1000_hal, counter.array);
-            dw1000_print_config(&dw);
             per_loop = 0;
             printf("    PHR_ERRORS:    %u \n\r",
                     counter.array[PHR_ERRORS]);
@@ -210,11 +209,20 @@ int main(void)
 
             //             dw1000_receive(&dw);
         }
-        if (per_loop % 100 == 0)
+        if (per_loop % 25 == 0 && role != NODE1 )
         {
             dw1000_trx_off(dw.config->hal);
-            dw1000_softreset_rx(dw.config->hal);
+            dw1000_print_config(&dw);
+            chThdSleepMilliseconds(10);
+            dw1000_sleep(&dw);
+            chThdSleepMilliseconds(5000);
+            dw1000_wakeup(&dw);
+            chThdSleepMilliseconds(10);
+            dw1000_print_config(&dw);
+            chThdSleepMilliseconds(10);
+
             dw1000_receive(&dw,0,0);
+            chThdSleepMilliseconds(10);
         }
         per_loop++;
     }
@@ -245,7 +253,6 @@ void HardFault_Handler(unsigned long *hardfault_args){
     volatile unsigned long _AFSR ;
     volatile unsigned long _BFAR ;
     volatile unsigned long _MMAR ;
-
     stacked_r0 = ((unsigned long)hardfault_args[0]) ;
     stacked_r1 = ((unsigned long)hardfault_args[1]) ;
     stacked_r2 = ((unsigned long)hardfault_args[2]) ;
@@ -254,35 +261,27 @@ void HardFault_Handler(unsigned long *hardfault_args){
     stacked_lr = ((unsigned long)hardfault_args[5]) ;
     stacked_pc = ((unsigned long)hardfault_args[6]) ;
     stacked_psr = ((unsigned long)hardfault_args[7]) ;
-
     // Configurable Fault Status Register
     // Consists of MMSR, BFSR and UFSR
     _CFSR = (*((volatile unsigned long *)(0xE000ED28))) ;
-
     // Hard Fault Status Register
     _HFSR = (*((volatile unsigned long *)(0xE000ED2C))) ;
-
     // Debug Fault Status Register
     _DFSR = (*((volatile unsigned long *)(0xE000ED30))) ;
-
     // Auxiliary Fault Status Register
     _AFSR = (*((volatile unsigned long *)(0xE000ED3C))) ;
-
     // Read the Fault Address Registers. These may not contain valid values.
     // Check BFARVALID/MMARVALID to see if they are valid values
     // MemManage Fault Address Register
     _MMAR = (*((volatile unsigned long *)(0xE000ED34))) ;
     // Bus Fault Address Register
     _BFAR = (*((volatile unsigned long *)(0xE000ED38))) ;
-
     __asm("BKPT #0\n") ; // Break into the debugger
     while(1){
         palTogglePad(GPIOC, GPIOC_LED1);
         palTogglePad(GPIOC, GPIOC_LED2);
         palTogglePad(GPIOC, GPIOC_LED3);
-
     }
-
     (void) stacked_r0;
     (void) stacked_r1;
     (void) stacked_r2;

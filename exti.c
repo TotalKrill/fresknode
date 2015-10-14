@@ -32,13 +32,12 @@ const EXTConfig extcfg = {
 THD_FUNCTION(myThread, arg) {
   (void)arg;
     chRegSetThreadName("DW1000 interrupt thread");
+    trp = chThdGetSelfX();
   while (true) {
 
     /* Waiting for the IRQ to happen.*/
-    chSysLock();
-    chThdSuspendS(&trp);
-    chSysUnlock();
-
+      //TODO: check correct event
+    chEvtWaitAny(1);
     /* Perform processing here.*/
     dw1000_irq_event(&dw);
   }
@@ -54,7 +53,11 @@ void extcb1(EXTDriver *extp, expchannel_t channel) {
   (void)extp;
   (void)channel;
   chSysLockFromISR();
-  chThdResumeI(&trp, (msg_t)0x1337);  /* Resuming the thread with message.*/
+  //chThdResumeI(&trp, (msg_t)0x1337);  /* Resuming the thread.*/
+  if( trp != NULL)
+  {
+    chEvtSignalI(trp, 1);
+  }
   chSysUnlockFromISR();
 }
 

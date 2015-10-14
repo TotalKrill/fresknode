@@ -7,12 +7,14 @@ OCD_TARGET = stm32f4x
 OCD_INTERFFACE = stlink-v2.cfg
 GDB = arm-none-eabi-gdb
 OPENOCD = openocd
+RTOS_AUTO_FULE = gdbrules/rtos_auto.cfg
 GDB_FLAGS = -ex "target remote | $(OPENOCD) -c \"gdb_port pipe\" -f interface/$(OCD_INTERFFACE) -f target/$(OCD_TARGET).cfg" -ex "load" -ex "monitor reset halt"
 
-RTOS_FLAGS = -ex "target remote | $(OPENOCD) -c \"gdb_port pipe;" -f interface/$(OCD_INTERFFACE) -f target/$(OCD_TARGET).cfg" -ex "load" -ex "monitor reset halt""
+RTOS_FLAGS = -ex "target remote | $(OPENOCD) -c \"gdb_port pipe;\" -f interface/$(OCD_INTERFFACE) -f target/$(OCD_TARGET).cfg -f $(RTOS_AUTO_FILE)" -ex "load" -ex "monitor reset halt"
 
 gdb: build/$(PROJECT).elf
 	$(GDB) build/$(PROJECT).elf $(GDB_FLAGS)
+
 rtos: build/$(PROJECT).elf
 	$(GDB) build/$(PROJECT).elf $(RTOS_FLAGS)
 

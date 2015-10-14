@@ -209,7 +209,7 @@ int main(void)
 
             //             dw1000_receive(&dw);
         }
-        if (per_loop % 25 == 0 && role != NODE1 )
+        if (per_loop % 25 == 0 && role != NODE1 && false)
         {
             dw1000_trx_off(dw.config->hal);
             dw1000_print_config(&dw);

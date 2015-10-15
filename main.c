@@ -121,6 +121,8 @@ int main(void)
             &config);
 
     dw.config = &config;
+    dw.ranging_module  = twowayranging_module;
+
     dw1000_init(&dw);
 
  // dw1000_set_antenna_delay(&default_dw1000_hal, 0);
@@ -133,7 +135,7 @@ int main(void)
     }
     else if( role == NODE1)
     {
-        set_ranging_callback(chain_range_callback);
+        set_twowayranging_callback(chain_range_callback);
         /* Fulhacket */
         start_chain_range_thd();
 
@@ -178,7 +180,7 @@ int main(void)
             //dw1000_receive(&dw);
         }
 
-        if (per_loop % 10 == 0 && false)
+        if (per_loop % 100 == 0 )
         {
             dw1000_get_event_counters(&default_dw1000_hal, counter.array);
             per_loop = 0;
@@ -206,10 +208,12 @@ int main(void)
                     counter.array[HALF_PERIOD_WARNINGS]);
             printf("    TX_PWRUP_WARN: %u \n\r",
                     counter.array[TX_PWRUP_WARNINGS]);
+            dw1000_trx_off(dw.config->hal);
+            dw1000_receive(&dw,0,0);
 
             //             dw1000_receive(&dw);
         }
-        if (per_loop % 25 == 0 && role != NODE1 && false)
+        if (per_loop % 25 == 0 && role != NODE1  && false)
         {
             dw1000_trx_off(dw.config->hal);
             dw1000_print_config(&dw);

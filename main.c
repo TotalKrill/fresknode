@@ -7,7 +7,8 @@
 #include "dw1000_reg.h"
 #include "dw1000.h"
 #include "exti.h"
-#include "dw1000_ranging.h"
+#include "dw1000_twowayranging.h"
+#include "dw1000_multitwowayranging.h"
 #include "timer.h"
 #include "eeprom.h"
 #include "fulhacket.h"
@@ -121,12 +122,18 @@ int main(void)
             &config);
 
     dw.config = &config;
+    //dw.ranging_module  = multitwowayranging_module;
     dw.ranging_module  = twowayranging_module;
 
     dw1000_init(&dw);
 
  // dw1000_set_antenna_delay(&default_dw1000_hal, 0);
 
+    mranging_targets_payload_t targ = {
+        .ranging_id = 1,
+        .nr_of_targets = 3,
+        .target = {0,1,2,3,4,5,6,7,0,0},
+    };
 
     dw1000_receive(&dw,0 ,0);
 
@@ -172,6 +179,7 @@ int main(void)
             dst.u16 = 0;
             //request_ranging(&dw, dst);
 
+            //mtwoway_start(&dw, &targ);
             chain_range(&dw);
         }
         else

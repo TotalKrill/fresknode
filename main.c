@@ -188,10 +188,11 @@ int main(void)
             //dw1000_receive(&dw);
         }
 
-        if (per_loop % 100 == 0 )
+        if (per_loop % 10== 0 )
         {
             dw1000_get_event_counters(&default_dw1000_hal, counter.array);
             per_loop = 0;
+#if 0
             printf("    PHR_ERRORS:    %u \n\r",
                     counter.array[PHR_ERRORS]);
             printf("    RSD_ERRORS:    %u \n\r",
@@ -216,8 +217,13 @@ int main(void)
                     counter.array[HALF_PERIOD_WARNINGS]);
             printf("    TX_PWRUP_WARN: %u \n\r",
                     counter.array[TX_PWRUP_WARNINGS]);
+#endif
+
+            dw1000_sensors_t sensors = dw1000_get_sensors(&dw);
+            printf("Sensors: temp = %f, vbat = %f\n\r", sensors.temp, sensors.vbat);
             dw1000_trx_off(dw.config->hal);
             dw1000_receive(&dw,0,0);
+
 
             //             dw1000_receive(&dw);
         }

@@ -122,6 +122,7 @@ int main(void)
             &config);
 
     dw.config = &config;
+    //dw.hal = &default_dw1000_hal;
     //dw.ranging_module  = multitwowayranging_module;
     dw.ranging_module  = twowayranging_module;
 
@@ -221,7 +222,7 @@ int main(void)
 
             dw1000_sensors_t sensors = dw1000_get_sensors(&dw);
             printf("Sensors: temp = %f, vbat = %f\n\r", sensors.temp, sensors.vbat);
-            dw1000_trx_off(dw.config->hal);
+            dw1000_trx_off(dw.hal);
             dw1000_receive(&dw,0,0);
 
 
@@ -229,7 +230,7 @@ int main(void)
         }
         if (per_loop % 25 == 0 && role != NODE1  && false)
         {
-            dw1000_trx_off(dw.config->hal);
+            dw1000_trx_off(dw.hal);
             dw1000_print_config(&dw);
             chThdSleepMilliseconds(10);
             dw1000_sleep(&dw);

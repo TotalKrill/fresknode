@@ -328,15 +328,15 @@ static THD_FUNCTION(myUsbInput, arg) {
         if (SDU1.config->usbp->state == USB_ACTIVE)
         {
             ctrl = chnGetTimeout(&SDU1, TIME_INFINITE);
-            dw1000_hal_t *p_hal = usb_dw->config->hal;
+            dw1000_hal_t *p_hal = usb_dw->hal;
             switch(ctrl){
                 case 's':
                     printf("Setting hal to lowspeed \n\r");
-                    usb_dw->config->hal->set_speed(usb_dw->config->hal, HAL_LOWSPEED);
+                    usb_dw->hal->set_speed(usb_dw->hal, HAL_LOWSPEED);
                     break;
                 case 'S':
                     printf("Setting hal to highspeed \n\r");
-                    usb_dw->config->hal->set_speed(usb_dw->config->hal, HAL_HIGHSPEED);
+                    usb_dw->hal->set_speed(usb_dw->hal, HAL_HIGHSPEED);
                     break;
                 case 't':
                     printf("testing\n\r");

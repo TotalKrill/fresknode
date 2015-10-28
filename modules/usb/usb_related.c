@@ -3,6 +3,8 @@
 
 #include "ch.h"
 #include "hal.h"
+#include "dw1000.h"
+#include "dw1000_lld.h"
 
 #include "chprintf.h"
 
@@ -329,6 +331,8 @@ static THD_FUNCTION(myUsbInput, arg) {
         {
             ctrl = chnGetTimeout(&SDU1, TIME_INFINITE);
             dw1000_hal_t *p_hal = usb_dw->hal;
+            dw1000_sensors_t sensors;
+            float rssi;
             switch(ctrl){
                 case 's':
                     printf("Setting hal to lowspeed \n\r");
@@ -339,7 +343,58 @@ static THD_FUNCTION(myUsbInput, arg) {
                     usb_dw->hal->set_speed(usb_dw->hal, HAL_HIGHSPEED);
                     break;
                 case 't':
-                    printf("testing\n\r");
+                    sensors = dw1000_get_sensors(usb_dw);
+                    printf("Sensors: temp = %f, vbat = %f\n\r",
+                            sensors.temp,
+                            sensors.vbat);
+                    break;
+                case 'r':
+                    printf("Rssi of last message is: %f", usb_dw->rssid[0]);
+                    rssi = dw1000_rssi_to_dbm(usb_dw, usb_dw->rssid[0]);
+                    printf(", %f\n\r", rssi);
+                    break;
+                case 'd':
+                    printf("setting 850\n\r");
+                    dw1000_change_datarate(usb_dw, DW1000_DATARATE_850);
+                    break;
+                case 'D':
+                    printf("setting 6800kbs\n\r");
+                    dw1000_change_datarate(usb_dw, DW1000_DATARATE_6800);
+                    break;
+                case '1':
+                    dw1000_change_channel(usb_dw, DW1000_CHANNEL_1);
+                    break;
+                case '2':
+                    dw1000_change_channel(usb_dw, DW1000_CHANNEL_2);
+                    break;
+                case '3':
+                    dw1000_change_channel(usb_dw, DW1000_CHANNEL_3);
+                    break;
+                case '4':
+                    dw1000_change_channel(usb_dw, DW1000_CHANNEL_4);
+                    break;
+                case '5':
+                    dw1000_change_channel(usb_dw, DW1000_CHANNEL_5);
+                    break;
+                case '7':
+                    dw1000_change_channel(usb_dw, DW1000_CHANNEL_7);
+                    break;
+                case 'f':
+                    if(dw1000_filter_enabled(usb_dw->hal))
+                        printf("Filtering active");
+                    else
+                        printf("Filtering disabled");
+                    break;
+                case 'p':
+                    if(dw1000_get_prf(usb_dw->hal) == DW1000_PRF_16_MHZ)
+                    {
+                        printf("prf: 16MHz\n\r");
+                    }
+                    if(dw1000_get_prf(usb_dw->hal) == DW1000_PRF_64_MHZ)
+                    {
+                        printf("prf: 64MHz\n\r");
+                    }
+                    break;
                 case 'i':
                     dw1000_get_event_counters(p_hal, count.array);
                     printf("    PHR_ERRORS:    %u \n\r",
@@ -367,12 +422,12 @@ static THD_FUNCTION(myUsbInput, arg) {
                     printf("    TX_PWRUP_WARN: %u \n\r",
                             count.array[TX_PWRUP_WARNINGS]);
                     break;
-                case 'r':
                 default:
                     break;
             }
         }
-        else{
+        else
+        {
             chThdSleepMilliseconds(1000);
         }
     }

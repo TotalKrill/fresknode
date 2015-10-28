@@ -73,6 +73,8 @@ int main(void)
     //enable debug print thread
     vInitDebugPrint((BaseSequentialStream *) &SDU1);
 
+    chThdSleepMilliseconds(4000);
+    printf("dw1000 git descriptor: %s\n\r", DW_GIT);
     palClearPad(GPIOC, GPIOC_DW_RST);
     chThdSleepMilliseconds(200);
     palSetPad(GPIOC, GPIOC_DW_RST);
@@ -122,18 +124,18 @@ int main(void)
             &config);
 
     dw.config = &config;
-    //dw.hal = &default_dw1000_hal;
+    dw.hal = &default_dw1000_hal;
     //dw.ranging_module  = multitwowayranging_module;
     dw.ranging_module  = twowayranging_module;
 
     dw1000_init(&dw);
-
+    dw1000_print_config(&dw);
  // dw1000_set_antenna_delay(&default_dw1000_hal, 0);
 
     mranging_targets_payload_t targ = {
         .ranging_id = 1,
         .nr_of_targets = 3,
-        .target = {0,1,2,3,4,5,6,7,0,0},
+        .target = {0,1,2,3,4,5,6,7},
     };
 
     dw1000_receive(&dw,0 ,0);
@@ -160,8 +162,9 @@ int main(void)
     dw1000_shortaddr_t dst;
     while(1)
     {
+        (void)dst;
+        (void)targ;
         palTogglePad(GPIOC, GPIOC_LED1);
-
 
         if( role == ANCHOR0  ) {
             dst.u16 = 0xFFFF;
@@ -220,8 +223,6 @@ int main(void)
                     counter.array[TX_PWRUP_WARNINGS]);
 #endif
 
-            dw1000_sensors_t sensors = dw1000_get_sensors(&dw);
-            printf("Sensors: temp = %f, vbat = %f\n\r", sensors.temp, sensors.vbat);
             dw1000_trx_off(dw.hal);
             dw1000_receive(&dw,0,0);
 

@@ -1,4 +1,11 @@
 
+/**
+ * @file main.c
+ * @brief program entry point
+ * @author Kristoffer Ödmark
+ * @version 0.9
+ * @date 2015-11-02
+ */
 #include "ch.h"
 #include "hal.h"
 #include "usb_related.h"
@@ -13,7 +20,9 @@
 #include "eeprom.h"
 #include "fulhacket.h"
 #include "my_uart.h"
+#include "ieee_types.h"
 
+#include "dw1000_peertopeer.h"
 
 #include "chprintf.h"
 #include "debug_print.h"
@@ -35,7 +44,7 @@ dw1000_driver_t dw;
 
 dw1000_counter_u counter;
 
-dw1000_euid_t devid;
+ieee_euid_t devid;
 
 void get_euid(void){
     eeprom_init();
@@ -127,6 +136,7 @@ int main(void)
     dw.hal = &default_dw1000_hal;
     //dw.ranging_module  = multitwowayranging_module;
     dw.ranging_module  = twowayranging_module;
+    dw.packet_module = peertopeer_module;
 
     dw1000_init(&dw);
     dw1000_print_config(&dw);
@@ -137,6 +147,8 @@ int main(void)
         .nr_of_targets = 3,
         .target = {0,1,2,3,4,5,6,7},
     };
+
+    uint8_t data[8] = {'a','b','c','d','e','f','g','h'};
 
     dw1000_receive(&dw,0 ,0);
 
@@ -157,20 +169,16 @@ int main(void)
     }
 
     int per_loop =1;
-    uint16_t sleep =500;
+    uint16_t sleep =100;
 
-    dw1000_shortaddr_t dst;
+    ieee_shortaddr_t dst;
     while(1)
     {
-        (void)dst;
         (void)targ;
         palTogglePad(GPIOC, GPIOC_LED1);
 
         if( role == ANCHOR0  ) {
-            dst.u16 = 0xFFFF;
             //dst.u16 = 4;
-            //TODO: invent better way of pingin the nodes
-            //request_ranging(&dw, dst);
             chThdSleepMilliseconds(sleep);
         }
         else if(role == NODE3){
@@ -184,7 +192,9 @@ int main(void)
             //request_ranging(&dw, dst);
 
             //mtwoway_start(&dw, &targ);
-            chain_range(&dw);
+            //chain_range(&dw);
+            //peertopeer_send(&dw, dst, &data, 8);
+            peertopeer_controlled_send(&dw, dst, 5,(uint8_t *)&data, 8);
         }
         else
         {
@@ -192,7 +202,7 @@ int main(void)
             //dw1000_receive(&dw);
         }
 
-        if (per_loop % 10== 0 )
+        if (per_loop % 100 == 0)
         {
             dw1000_get_event_counters(&default_dw1000_hal, counter.array);
             per_loop = 0;
@@ -223,8 +233,7 @@ int main(void)
                     counter.array[TX_PWRUP_WARNINGS]);
 #endif
 
-            dw1000_trx_off(dw.hal);
-            dw1000_receive(&dw,0,0);
+            //dw1000_receive(&dw,0,0);
 
 
             //             dw1000_receive(&dw);

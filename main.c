@@ -1,4 +1,3 @@
-
 /**
  * @file main.c
  * @brief program entry point
@@ -169,7 +168,7 @@ int main(void)
     }
 
     int per_loop =1;
-    uint16_t sleep =100;
+    uint16_t sleep =500;
 
     ieee_shortaddr_t dst;
     while(1)
@@ -238,9 +237,8 @@ int main(void)
 
             //             dw1000_receive(&dw);
         }
-        if (per_loop % 25 == 0 && role != NODE1  && false)
+        if (per_loop % 5 == 0)
         {
-            dw1000_trx_off(dw.hal);
             dw1000_print_config(&dw);
             chThdSleepMilliseconds(10);
             dw1000_sleep(&dw);
@@ -249,7 +247,6 @@ int main(void)
             chThdSleepMilliseconds(10);
             dw1000_print_config(&dw);
             chThdSleepMilliseconds(10);
-
             dw1000_receive(&dw,0,0);
             chThdSleepMilliseconds(10);
         }

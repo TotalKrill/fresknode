@@ -386,14 +386,7 @@ static THD_FUNCTION(myUsbInput, arg) {
                         printf("Filtering disabled");
                     break;
                 case 'p':
-                    if(dw1000_get_prf(usb_dw->hal) == DW1000_PRF_16_MHZ)
-                    {
-                        printf("prf: 16MHz\n\r");
-                    }
-                    if(dw1000_get_prf(usb_dw->hal) == DW1000_PRF_64_MHZ)
-                    {
-                        printf("prf: 64MHz\n\r");
-                    }
+                    dw1000_print_config(usb_dw);
                     break;
                 case 'i':
                     dw1000_get_event_counters(p_hal, count.array);

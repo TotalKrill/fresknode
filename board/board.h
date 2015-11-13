@@ -547,7 +547,7 @@
                             PIN_PUPDR_PULLUP(GPIOC_LED_USR) |        \
                             PIN_PUPDR_PULLUP(GPIOC_PIN2) |           \
                             PIN_PUPDR_PULLUP(GPIOC_PIN3) |           \
-                            PIN_PUPDR_PULLUP(GPIOC_DW_IRQ) |      \
+                            PIN_PUPDR_PULLDOWN(GPIOC_DW_IRQ) |      \
                             PIN_PUPDR_PULLUP(GPIOC_DW_RST) |           \
                             PIN_PUPDR_PULLUP(GPIOC_LED2) |    \
                             PIN_PUPDR_PULLUP(GPIOC_LED3) |    \

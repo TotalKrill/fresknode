@@ -237,7 +237,7 @@ int main(void)
 
             //             dw1000_receive(&dw);
         }
-        if (per_loop % 5 == 0)
+        if (per_loop % 5 == 0 && false)
         {
             dw1000_print_config(&dw);
             chThdSleepMilliseconds(10);

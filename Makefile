@@ -5,7 +5,9 @@
 
 # Compiler options here.
 ifeq ($(USE_OPT),)
-  USE_OPT = -Og -ggdb -fomit-frame-pointer -falign-functions=16 -Wno-packed-bitfield-compat
+  USE_OPT = -Og -ggdb -fomit-frame-pointer \
+  -falign-functions=16 -Wno-packed-bitfield-compat \
+  -fdiagnostics-color=always
 endif
 
 # C specific options here (added to USE_OPT).

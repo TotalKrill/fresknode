@@ -325,7 +325,7 @@ static dw1000_driver_t *usb_dw;
 static THD_FUNCTION(myUsbInput, arg) {
     char ctrl;
     (void)arg;
-    dw1000_counter_u count;
+    dw1000_event_counters_t count;
     while (true) {
         if (SDU1.config->usbp->state == USB_ACTIVE)
         {
@@ -389,31 +389,31 @@ static THD_FUNCTION(myUsbInput, arg) {
                     dw1000_print_config(usb_dw);
                     break;
                 case 'i':
-                    dw1000_get_event_counters(p_hal, count.array);
+                    count = dw1000_get_event_counters(p_hal);
                     printf("    PHR_ERRORS:    %u \n\r",
-                            count.array[PHR_ERRORS]);
+                            count.phr_error);
                     printf("    RSD_ERRORS:    %u \n\r",
-                            count.array[RSD_ERRORS]);
+                            count.rsd_error);
                     printf("    FCS_GOOD:      %u \n\r",
-                            count.array[FCS_GOOD]);
+                            count.frame_check_good);
                     printf("    FCS_ERRORS:    %u \n\r",
-                            count.array[FCS_ERRORS]);
+                            count.frame_check_error);
                     printf("    FILTER_REJ:    %u \n\r",
-                            count.array[FILTER_REJECTIONS]);
+                            count.frame_filter_rejection);
                     printf("    RX_OVERRUNS:   %u \n\r",
-                            count.array[RX_OVERRUNS]);
+                            count.rx_overruns);
                     printf("    SFD_TO:        %u \n\r",
-                            count.array[SFD_TIMEOUTS]);
+                            count.sfd_timeout);
                     printf("    PREAMBLE_TO:   %u \n\r",
-                            count.array[PREAMBLE_TIMEOUTS]);
+                            count.preamble_timeout);
                     printf("    RX_TIMEOUTS:   %u \n\r",
-                            count.array[RX_TIMEOUTS]);
+                            count.rx_frame_wait);
                     printf("    TX_SENT:       %u \n\r",
-                            count.array[TX_SENT]);
+                            count.tx_frame_sent);
                     printf("    HPWARN:        %u \n\r",
-                            count.array[HALF_PERIOD_WARNINGS]);
+                            count.half_period);
                     printf("    TX_PWRUP_WARN: %u \n\r",
-                            count.array[TX_PWRUP_WARNINGS]);
+                            count.tx_powerup);
                     break;
                 default:
                     break;

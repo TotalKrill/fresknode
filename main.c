@@ -17,9 +17,9 @@
 #include "dw1000_multitwowayranging.h"
 #include "timer.h"
 #include "eeprom.h"
-#include "fulhacket.h"
 #include "my_uart.h"
 #include "ieee_types.h"
+#include "fulhacket.h"
 
 #include "dw1000_peertopeer.h"
 
@@ -41,9 +41,41 @@ extern dw1000_hal_t default_dw1000_hal;
 
 dw1000_driver_t dw;
 
-dw1000_counter_u counter;
-
 ieee_euid_t devid;
+
+typedef enum {
+    ANCHOR0,
+    ANCHOR1,
+    ANCHOR2,
+    ANCHOR3,
+    NODE1,
+    NODE2,
+    NODE3
+}rangerRole;
+
+rangerRole get_role(ieee_euid_t id){
+    if(id.u64 == 0xffff0c0412000ba3){
+        return ANCHOR0;
+    }
+    if(id.u64 == 0xffff34fc11000ba3){
+        return ANCHOR1;
+    }
+    if(id.u64 == 0xffff4cee11000ba3){
+        return ANCHOR2;
+    }
+    if(id.u64 == 0xffff5ffc11000ba3){
+        return ANCHOR3;
+    }
+    if(id.u64 == 0xffff120b12000ba3){
+        return NODE1;
+    }
+    if(id.u64 == 0){
+        return NODE2;
+    }
+
+    return NODE3;
+
+}
 
 void get_euid(void){
     eeprom_init();
@@ -93,53 +125,58 @@ int main(void)
     // start uart
     start_serial();
 
-
-    dw1000_conf_t config;
+    start_chain_range_thd();
+    set_twowayranging_callback(chain_range_callback);
+    ieee_shortaddr_t ieeshortaddr;
     volatile rangerRole role = get_role(devid);
     switch(role){
         case ANCHOR0:
-            config.shortaddr.u16 = 0;
+            ieeshortaddr.u16 = 0;
             break;
         case ANCHOR1:
-            config.shortaddr.u16 = 1;
+            ieeshortaddr.u16 = 1;
             break;
         case ANCHOR2:
-            config.shortaddr.u16 = 2;
+            ieeshortaddr.u16 = 2;
             break;
         case ANCHOR3:
-            config.shortaddr.u16 = 3;
+            ieeshortaddr.u16 = 3;
             break;
         case NODE1:
-            config.shortaddr.u16 = 4;
+            ieeshortaddr.u16 = 4;
             break;
         case NODE2:
-            config.shortaddr.u16 = 5;
+            ieeshortaddr.u16 = 5;
             break;
         default:
-            config.shortaddr.u16 = 5;
+            ieeshortaddr.u16 = 5;
             break;
 
     }
 
-
     dw.state = DW1000_STATE_UNINITIALIZED;
 
+    dw1000_conf_t config;
+
+    config.shortaddr = ieeshortaddr;
+
     dw1000_generate_recommended_conf(
-            &default_dw1000_hal,
             DW1000_DATARATE_850,
             DW1000_CHANNEL_2,
             devid,
             &config);
-
     dw.config = &config;
+
     dw.hal = &default_dw1000_hal;
-    //dw.ranging_module  = multitwowayranging_module;
-    dw.ranging_module  = twowayranging_module;
-    dw.packet_module = peertopeer_module;
+
+    dw.ranging_module  = &twowayranging_module;
+
+    dw.packet_module = &peertopeer_module;
 
     dw1000_init(&dw);
+
+
     dw1000_print_config(&dw);
- // dw1000_set_antenna_delay(&default_dw1000_hal, 0);
 
     mranging_targets_payload_t targ = {
         .ranging_id = 1,
@@ -156,10 +193,6 @@ int main(void)
     }
     else if( role == NODE1)
     {
-        set_twowayranging_callback(chain_range_callback);
-        /* Fulhacket */
-        start_chain_range_thd();
-
         //ranging_calibration_setup(8107,50,100);
         //set_ranging_callback(calibration_cb);
     }
@@ -178,22 +211,21 @@ int main(void)
 
         if( role == ANCHOR0  ) {
             //dst.u16 = 4;
-            chThdSleepMilliseconds(sleep);
+            chThdSleepMilliseconds(sleep/2);
         }
         else if(role == NODE3){
             dst.u16 = 4;
-            //request_ranging(&dw, dst);
             chThdSleepMilliseconds(1000);
         }
         else if(role == NODE1){
             chThdSleepMilliseconds(sleep);
             dst.u16 = 0;
-            //request_ranging(&dw, dst);
+            //twowayranging_request(&dw, dst);
 
             //mtwoway_start(&dw, &targ);
-            //chain_range(&dw);
+            chain_range(&dw);
             //peertopeer_send(&dw, dst, &data, 8);
-            peertopeer_controlled_send(&dw, dst, 5,(uint8_t *)&data, 8);
+            //peertopeer_controlled_send(&dw, dst, 5,(uint8_t *)&data, 8);
         }
         else
         {
@@ -203,7 +235,10 @@ int main(void)
 
         if (per_loop % 100 == 0)
         {
-            dw1000_get_event_counters(&default_dw1000_hal, counter.array);
+            dw1000_trx_off(&default_dw1000_hal);
+            dw1000_softreset_rx(&default_dw1000_hal);
+            dw1000_receive(&dw,0,0);
+            dw1000_get_event_counters(&default_dw1000_hal);
             per_loop = 0;
 #if 0
             printf("    PHR_ERRORS:    %u \n\r",

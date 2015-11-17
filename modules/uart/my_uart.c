@@ -1,5 +1,21 @@
 #include "my_uart.h"
 
+#undef printf
+#if DEBUG
+// include necesary files for debugging output
+#include "hal.h"
+#include "chprintf.h"
+#include "debug_print.h"
+extern BaseSequentialStream debug_print;
+#define printf(...) chprintf(&debug_print, "twoway: "); \
+                    chprintf(&debug_print, __VA_ARGS__)
+#else
+
+
+#define printf(...)
+
+#endif
+
 
 /* Temporary settings until serial is settable through the USB */
 static const SerialConfig aux1_config =

@@ -12,8 +12,11 @@
 #include "ch.h"
 #include "hal.h"
 #include "fulhacket.h"
-
 #define AUX1_SERIAL_DRIVER SD3
+
+#undef DEBUG
+#undef printf
+#define DEBUG 1
 
 void start_serial(void);
 void serial_write_round_result(dw1000_round_results_t res);

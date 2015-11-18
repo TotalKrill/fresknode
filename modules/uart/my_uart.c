@@ -28,7 +28,21 @@ static const SerialConfig aux1_config =
 
 THD_WORKING_AREA(waAux1DataPumpTask, 128);
 static uint32_t ranges[4] = {0,0,0,0};
-static bool serial_empty = true;
+struct range_info
+{
+    uint16_t node;
+    uint32_t range;
+    uint32_t rssi;
+};
+
+static struct range_info range_data;
+
+typedef enum {
+    SERIAL_NONE,
+    SERIAL_ROUND_RESULTS,
+    SERIAL_RANGE_RESULT,
+} serial_type_t;
+static serial_type_t serial_data = SERIAL_NONE;
 
 /**
  * @brief           Transmits the content of the Aux1 circular buffer over Aux1.
@@ -48,15 +62,26 @@ static THD_FUNCTION(Aux1DataPumpTask, arg)
     {
         /* Wait for a start transmission event */
         chThdSleepMilliseconds(1);
-        if(serial_empty == false)
+        switch(serial_data)
         {
-            chprintf((BaseSequentialStream *)&AUX1_SERIAL_DRIVER, "s%5u,%5u,%5u,%5ue",
+            case SERIAL_ROUND_RESULTS:
+                chprintf((BaseSequentialStream *)&AUX1_SERIAL_DRIVER, "s%5u,%5u,%5u,%5ue",
                     ranges[0],
                     ranges[1],
                     ranges[2],
                     ranges[3]);
+                serial_data = SERIAL_NONE;
+                break;
+            case SERIAL_RANGE_RESULT:
+                chprintf((BaseSequentialStream *)&AUX1_SERIAL_DRIVER, "s%6u,%6u,%6ue",
+                        range_data.node,
+                        range_data.range,
+                        range_data.rssi);
+                serial_data = SERIAL_NONE;
+            case SERIAL_NONE:
+            default:
+                break;
 
-            serial_empty = true;
         }
 
         /* We will only get here is a request to send data has been received */
@@ -68,9 +93,17 @@ void serial_write_round_result(dw1000_round_results_t res)
     ranges[1] = res.anchor[1].range_mm;
     ranges[2] = res.anchor[2].range_mm;
     ranges[3] = res.anchor[3].range_mm;
-    serial_empty = false;
+    serial_data = SERIAL_ROUND_RESULTS;
 
 }
+void serial_write_range(uint16_t node, uint32_t range, uint32_t rssi)
+{
+   range_data.node = node;
+   range_data.range = range;
+   range_data.rssi = rssi;
+   serial_data = SERIAL_RANGE_RESULT;
+}
+
 void start_serial(void)
 {
     sdStart(&AUX1_SERIAL_DRIVER, &aux1_config );

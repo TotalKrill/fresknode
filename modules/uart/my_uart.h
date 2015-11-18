@@ -20,5 +20,6 @@
 
 void start_serial(void);
 void serial_write_round_result(dw1000_round_results_t res);
+void serial_write_range(uint16_t node, uint32_t range, uint32_t rssi);
 
 #endif

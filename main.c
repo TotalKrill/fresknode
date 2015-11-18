@@ -72,6 +72,10 @@ rangerRole get_role(ieee_euid_t id){
     if(id.u64 == 0){
         return NODE2;
     }
+    if(id.u64 == 0xffff110812000ba3){
+        //ok node for test
+        return NODE2;
+    }
 
     return NODE3;
 
@@ -125,8 +129,6 @@ int main(void)
     // start uart
     start_serial();
 
-    start_chain_range_thd();
-    set_twowayranging_callback(chain_range_callback);
     ieee_shortaddr_t ieeshortaddr;
     volatile rangerRole role = get_role(devid);
     switch(role){
@@ -165,6 +167,7 @@ int main(void)
             DW1000_CHANNEL_2,
             devid,
             &config);
+
     dw.config = &config;
 
     dw.hal = &default_dw1000_hal;
@@ -174,7 +177,6 @@ int main(void)
     dw.packet_module = &peertopeer_module;
 
     dw1000_init(&dw);
-
 
     dw1000_print_config(&dw);
 
@@ -193,6 +195,8 @@ int main(void)
     }
     else if( role == NODE1)
     {
+        start_chain_range_thd();
+        //set_twowayranging_callback(chain_range_callback);
         //ranging_calibration_setup(8107,50,100);
         //set_ranging_callback(calibration_cb);
     }
@@ -201,17 +205,31 @@ int main(void)
     }
 
     int per_loop =1;
-    uint16_t sleep =500;
+    uint16_t sleep =1000;
 
     ieee_shortaddr_t dst;
+    dw1000_sensors_t sensors;
     while(1)
     {
+        sensors = dw1000_get_sensors(&dw);
+        printf("Sensors: temp = %f, vbat = %f\n\r",
+                sensors.temp,
+                sensors.vbat);
         (void)targ;
         palTogglePad(GPIOC, GPIOC_LED1);
 
         if( role == ANCHOR0  ) {
             //dst.u16 = 4;
             chThdSleepMilliseconds(sleep/2);
+        }
+        else if(role == NODE2)
+        {
+            dst.u16 = 0;
+            twowayranging_request(&dw, dst);
+            chThdSleepMilliseconds(20);
+            dst.u16 = 2;
+            twowayranging_request(&dw, dst);
+            chThdSleepMilliseconds(20);
         }
         else if(role == NODE3){
             dst.u16 = 4;
@@ -220,16 +238,25 @@ int main(void)
         else if(role == NODE1){
             chThdSleepMilliseconds(sleep);
             dst.u16 = 0;
-            //twowayranging_request(&dw, dst);
+            twowayranging_request(&dw, dst);
+            chThdSleepMilliseconds(20);
+            dst.u16 = 1;
+            twowayranging_request(&dw, dst);
+            chThdSleepMilliseconds(20);
+            dst.u16 = 2;
+            twowayranging_request(&dw, dst);
+            chThdSleepMilliseconds(20);
+            dst.u16 = 3;
+            twowayranging_request(&dw, dst);
+            //chain_range(&dw);
 
             //mtwoway_start(&dw, &targ);
-            chain_range(&dw);
             //peertopeer_send(&dw, dst, &data, 8);
             //peertopeer_controlled_send(&dw, dst, 5,(uint8_t *)&data, 8);
         }
         else
         {
-            chThdSleepMilliseconds(50);
+            chThdSleepMilliseconds(100);
             //dw1000_receive(&dw);
         }
 
@@ -238,7 +265,7 @@ int main(void)
             dw1000_trx_off(&default_dw1000_hal);
             dw1000_softreset_rx(&default_dw1000_hal);
             dw1000_receive(&dw,0,0);
-            dw1000_get_event_counters(&default_dw1000_hal);
+            //dw1000_get_event_counters(&default_dw1000_hal);
             per_loop = 0;
 #if 0
             printf("    PHR_ERRORS:    %u \n\r",
@@ -272,7 +299,7 @@ int main(void)
 
             //             dw1000_receive(&dw);
         }
-        if (per_loop % 5 == 0 && false)
+        if (per_loop % 5000 == 0 && false)
         {
             dw1000_print_config(&dw);
             chThdSleepMilliseconds(10);

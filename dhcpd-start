@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#gief dhcpd server
+dhcpd enp0s20u1u1u3
+
 #iptables rules
 iptables -t nat -P OUTPUT ACCEPT
 iptables -t nat -P PREROUTING ACCEPT
@@ -11,5 +14,3 @@ iptables -A FORWARD -t filter -i wlanint -m state --state ESTABLISHED,RELATED -j
 #gief ip and netmask
 ip addr add 10.10.10.1/255.255.255.0 dev enp0s20u1u1u3
 
-#gief dhcpd server
-dhcpd enp0s20u1u1u3

@@ -354,12 +354,12 @@ static THD_FUNCTION(myUsbInput, arg) {
                     printf(", %f\n\r", rssi);
                     break;
                 case 'd':
-                    printf("setting 850\n\r");
-                    dw1000_change_datarate(usb_dw, DW1000_DATARATE_850);
+                    printf("setting 110kbs\n\r");
+                    dw1000_change_datarate(usb_dw, DW1000_DATARATE_110);
                     break;
                 case 'D':
-                    printf("setting 6800kbs\n\r");
-                    dw1000_change_datarate(usb_dw, DW1000_DATARATE_6800);
+                    printf("setting 850kbs\n\r");
+                    dw1000_change_datarate(usb_dw, DW1000_DATARATE_850);
                     break;
                 case '1':
                     dw1000_change_channel(usb_dw, DW1000_CHANNEL_1);

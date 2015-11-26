@@ -73,7 +73,7 @@ static THD_FUNCTION(Aux1DataPumpTask, arg)
                 serial_data = SERIAL_NONE;
                 break;
             case SERIAL_RANGE_RESULT:
-                chprintf((BaseSequentialStream *)&AUX1_SERIAL_DRIVER, "s%6u,%6u,%6ue",
+                chprintf((BaseSequentialStream *)&AUX1_SERIAL_DRIVER, "s%6u,%6u,%6ue\n",
                         range_data.node,
                         range_data.range,
                         range_data.rssi);
@@ -87,15 +87,7 @@ static THD_FUNCTION(Aux1DataPumpTask, arg)
         /* We will only get here is a request to send data has been received */
     }
 }
-void serial_write_round_result(dw1000_round_results_t res)
-{
-    ranges[0] = res.anchor[0].range_mm;
-    ranges[1] = res.anchor[1].range_mm;
-    ranges[2] = res.anchor[2].range_mm;
-    ranges[3] = res.anchor[3].range_mm;
-    serial_data = SERIAL_ROUND_RESULTS;
 
-}
 void serial_write_range(uint16_t node, uint32_t range, uint32_t rssi)
 {
    range_data.node = node;

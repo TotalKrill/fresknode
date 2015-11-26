@@ -19,7 +19,6 @@
 #include "eeprom.h"
 #include "my_uart.h"
 #include "ieee_types.h"
-#include "fulhacket.h"
 
 #include "dw1000_peertopeer.h"
 
@@ -163,7 +162,7 @@ int main(void)
     config.shortaddr = ieeshortaddr;
 
     dw1000_generate_recommended_conf(
-            DW1000_DATARATE_850,
+            DW1000_DATARATE_110,
             DW1000_CHANNEL_2,
             devid,
             &config);
@@ -195,17 +194,14 @@ int main(void)
     }
     else if( role == NODE1)
     {
-        start_chain_range_thd();
-        //set_twowayranging_callback(chain_range_callback);
-        //ranging_calibration_setup(8107,50,100);
-        //set_ranging_callback(calibration_cb);
     }
     else if( role == NODE3){
         dw1000_set_antenna_delay(&default_dw1000_hal, 0);
     }
 
     int per_loop =1;
-    uint16_t sleep =1000;
+    uint16_t sleep =100;
+    int range_delay = 50;
 
     ieee_shortaddr_t dst;
     dw1000_sensors_t sensors;
@@ -220,37 +216,38 @@ int main(void)
 
         if( role == ANCHOR0  ) {
             //dst.u16 = 4;
-            chThdSleepMilliseconds(sleep/2);
-        }
-        else if(role == NODE2)
-        {
-            dst.u16 = 0;
-            twowayranging_request(&dw, dst);
-            chThdSleepMilliseconds(20);
-            dst.u16 = 2;
-            twowayranging_request(&dw, dst);
-            chThdSleepMilliseconds(20);
-        }
-        else if(role == NODE3){
-            dst.u16 = 4;
-            chThdSleepMilliseconds(1000);
-        }
-        else if(role == NODE1){
             chThdSleepMilliseconds(sleep);
+        }
+        if( role == ANCHOR1  ) {
+            //dst.u16 = 4;
+            chThdSleepMilliseconds(sleep*2);
+        }
+        if( role == ANCHOR2  ) {
+            //dst.u16 = 4;
+            chThdSleepMilliseconds(sleep*3);
+        }
+        if( role == ANCHOR3  ) {
+            //dst.u16 = 4;
+            chThdSleepMilliseconds(sleep*4);
+        }
+
+        if(role == NODE1 ||
+           role == NODE2 ||
+           role == NODE3
+           ){
             dst.u16 = 0;
             twowayranging_request(&dw, dst);
-            chThdSleepMilliseconds(20);
+            chThdSleepMilliseconds(range_delay);
             dst.u16 = 1;
             twowayranging_request(&dw, dst);
-            chThdSleepMilliseconds(20);
+            chThdSleepMilliseconds(range_delay);
             dst.u16 = 2;
             twowayranging_request(&dw, dst);
-            chThdSleepMilliseconds(20);
+            chThdSleepMilliseconds(range_delay);
             dst.u16 = 3;
             twowayranging_request(&dw, dst);
-            //chain_range(&dw);
+            chThdSleepMilliseconds(range_delay);
 
-            //mtwoway_start(&dw, &targ);
             //peertopeer_send(&dw, dst, &data, 8);
             //peertopeer_controlled_send(&dw, dst, 5,(uint8_t *)&data, 8);
         }
@@ -267,39 +264,9 @@ int main(void)
             dw1000_receive(&dw,0,0);
             //dw1000_get_event_counters(&default_dw1000_hal);
             per_loop = 0;
-#if 0
-            printf("    PHR_ERRORS:    %u \n\r",
-                    counter.array[PHR_ERRORS]);
-            printf("    RSD_ERRORS:    %u \n\r",
-                    counter.array[RSD_ERRORS]);
-            printf("    FCS_GOOD:      %u \n\r",
-                    counter.array[FCS_GOOD]);
-            printf("    FCS_ERRORS:    %u \n\r",
-                    counter.array[FCS_ERRORS]);
-            printf("    FILTER_REJ:    %u \n\r",
-                    counter.array[FILTER_REJECTIONS]);
-            printf("    RX_OVERRUNS:   %u \n\r",
-                    counter.array[RX_OVERRUNS]);
-            printf("    SFD_TO:        %u \n\r",
-                    counter.array[SFD_TIMEOUTS]);
-            printf("    PREAMBLE_TO:   %u \n\r",
-                    counter.array[PREAMBLE_TIMEOUTS]);
-            printf("    RX_TIMEOUTS:   %u \n\r",
-                    counter.array[RX_TIMEOUTS]);
-            printf("    TX_SENT:       %u \n\r",
-                    counter.array[TX_SENT]);
-            printf("    HPWARN:        %u \n\r",
-                    counter.array[HALF_PERIOD_WARNINGS]);
-            printf("    TX_PWRUP_WARN: %u \n\r",
-                    counter.array[TX_PWRUP_WARNINGS]);
-#endif
 
-            //dw1000_receive(&dw,0,0);
-
-
-            //             dw1000_receive(&dw);
         }
-        if (per_loop % 5000 == 0 && false)
+        if (per_loop % 5 == 0 && false)
         {
             dw1000_print_config(&dw);
             chThdSleepMilliseconds(10);

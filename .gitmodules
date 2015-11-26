@@ -1,3 +1,6 @@
 [submodule "drivers/dw1000"]
 	path = drivers/dw1000
 	url = https://totalkrill@github.com/korken89/KrilleDevelop.git
+[submodule "modules/debug_print"]
+	path = modules/debug_print
+	url = git@github.com:korken89/ChibiOS_Debug_Print.git

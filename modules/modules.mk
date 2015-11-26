@@ -14,15 +14,15 @@ include $(MODULE_DIR)/uart/uart.mk
 # List of all the module related files.
 MODULES_SRC = 	$(USB_SRCS) \
 			  	$(TIMER_SRCS) \
-			  	$(DBG_PRINT_SRCS) \
 			  	$(UARTSRC) \
-              	$(VERSIONINFO_SRCS)
+              	$(VERSIONINFO_SRCS) \
+				$(MODULE_DIR)/debug_print/debug_print.c
 
 # Required include directories
 MODULES_INC = 	$(USB_INC) \
 			  	$(TIMER_INC) \
-			  	$(DBG_PRINT_INC) \
 			  	$(UARTINC) \
-              	$(VERSIONINFO_INC)
+              	$(VERSIONINFO_INC) \
+				$(MODULE_DIR)/debug_print
 
 

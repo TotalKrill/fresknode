@@ -4,8 +4,6 @@ MODULE_DIR = ./modules
 # Imported source files and paths from modules
 include $(MODULE_DIR)/usb/usb.mk
 
-include $(MODULE_DIR)/dbgprint/debugprint.mk
-
 include $(MODULE_DIR)/timer/timer.mk
 include $(MODULE_DIR)/uart/uart.mk
 

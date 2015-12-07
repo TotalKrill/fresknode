@@ -5,6 +5,7 @@
  * @version 0.9
  * @date 2015-11-02
  */
+
 #include "ch.h"
 #include "hal.h"
 #include "usb_related.h"
@@ -14,7 +15,7 @@
 #include "dw1000.h"
 #include "exti.h"
 #include "dw1000_twowayranging.h"
-#include "dw1000_multitwowayranging.h"
+//#include "dw1000_multitwowayranging.h"
 #include "timer.h"
 #include "eeprom.h"
 #include "my_uart.h"
@@ -95,6 +96,7 @@ void get_euid(void){
 }
 
 void HardFault_Handler(unsigned long *hardfault_args);
+volatile rangerRole role;
 
 int main(void)
 {
@@ -124,12 +126,11 @@ int main(void)
 
     //enable interrupt handler
     start_interrupt_handler();
-
+    role = get_role(devid);
     // start uart
     start_serial();
 
     ieee_shortaddr_t ieeshortaddr;
-    volatile rangerRole role = get_role(devid);
     switch(role){
         case ANCHOR0:
             ieeshortaddr.u16 = 0;
@@ -178,12 +179,13 @@ int main(void)
     dw1000_init(&dw);
 
     dw1000_print_config(&dw);
-
+/*
     mranging_targets_payload_t targ = {
         .ranging_id = 1,
         .nr_of_targets = 3,
         .target = {0,1,2,3,4,5,6,7},
     };
+*/
 
     uint8_t data[8] = {'a','b','c','d','e','f','g','h'};
 
@@ -211,7 +213,6 @@ int main(void)
         printf("Sensors: temp = %f, vbat = %f\n\r",
                 sensors.temp,
                 sensors.vbat);
-        (void)targ;
         palTogglePad(GPIOC, GPIOC_LED1);
 
         if( role == ANCHOR0  ) {
@@ -230,11 +231,16 @@ int main(void)
             //dst.u16 = 4;
             chThdSleepMilliseconds(sleep*4);
         }
+        if (role == NODE3)
+        {
+            chThdSleepMilliseconds(2000);
+        }
+
 
         if(role == NODE1 ||
-           role == NODE2 ||
-           role == NODE3
+           role == NODE2
            ){
+            /*
             dst.u16 = 0;
             twowayranging_request(&dw, dst);
             chThdSleepMilliseconds(range_delay);
@@ -247,10 +253,12 @@ int main(void)
             dst.u16 = 3;
             twowayranging_request(&dw, dst);
             chThdSleepMilliseconds(range_delay);
+            */
 
             //peertopeer_send(&dw, dst, &data, 8);
             //peertopeer_controlled_send(&dw, dst, 5,(uint8_t *)&data, 8);
         }
+
         else
         {
             chThdSleepMilliseconds(100);
@@ -266,8 +274,10 @@ int main(void)
             per_loop = 0;
 
         }
-        if (per_loop % 5 == 0 && false)
+            chThdSleepMilliseconds(1000);
+        if (per_loop % 5 == 0 && per_loop != 0)
         {
+            chThdSleepMilliseconds(1000);
             dw1000_print_config(&dw);
             chThdSleepMilliseconds(10);
             dw1000_sleep(&dw);
@@ -275,8 +285,6 @@ int main(void)
             dw1000_wakeup(&dw);
             chThdSleepMilliseconds(10);
             dw1000_print_config(&dw);
-            chThdSleepMilliseconds(10);
-            dw1000_receive(&dw,0,0);
             chThdSleepMilliseconds(10);
         }
         per_loop++;

@@ -196,14 +196,15 @@ int main(void)
     }
     else if( role == NODE1)
     {
+       //set_twowayranging_callback(default_cb);
     }
     else if( role == NODE3){
-        dw1000_set_antenna_delay(&default_dw1000_hal, 0);
+      //  dw1000_set_antenna_delay(&default_dw1000_hal, 0);
     }
 
     int per_loop =1;
     uint16_t sleep =100;
-    int range_delay = 50;
+    int range_delay = 100;
 
     ieee_shortaddr_t dst;
     dw1000_sensors_t sensors;
@@ -231,16 +232,17 @@ int main(void)
             //dst.u16 = 4;
             chThdSleepMilliseconds(sleep*4);
         }
-        if (role == NODE3)
+        if (role == NODE3 && 0)
         {
-            chThdSleepMilliseconds(2000);
+            //chThdSleepMilliseconds(2000);
         }
 
 
         if(role == NODE1 ||
-           role == NODE2
+           role == NODE2 ||
+           role == NODE3
            ){
-            /*
+
             dst.u16 = 0;
             twowayranging_request(&dw, dst);
             chThdSleepMilliseconds(range_delay);
@@ -253,7 +255,6 @@ int main(void)
             dst.u16 = 3;
             twowayranging_request(&dw, dst);
             chThdSleepMilliseconds(range_delay);
-            */
 
             //peertopeer_send(&dw, dst, &data, 8);
             //peertopeer_controlled_send(&dw, dst, 5,(uint8_t *)&data, 8);
@@ -274,7 +275,8 @@ int main(void)
             per_loop = 0;
 
         }
-            chThdSleepMilliseconds(1000);
+        //chThdSleepMilliseconds(1000);
+        /*
         if (per_loop % 5 == 0 && per_loop != 0)
         {
             chThdSleepMilliseconds(1000);
@@ -287,6 +289,7 @@ int main(void)
             dw1000_print_config(&dw);
             chThdSleepMilliseconds(10);
         }
+        */
         per_loop++;
     }
 }

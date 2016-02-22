@@ -15,6 +15,7 @@
 #include "dw1000.h"
 #include "exti.h"
 #include "dw1000_twowayranging.h"
+#include "passiveranging.h"
 //#include "dw1000_multitwowayranging.h"
 #include "timer.h"
 #include "eeprom.h"
@@ -151,7 +152,7 @@ int main(void)
             ieeshortaddr.u16 = 5;
             break;
         default:
-            ieeshortaddr.u16 = 5;
+            ieeshortaddr.u16 = 6;
             break;
 
     }
@@ -176,6 +177,10 @@ int main(void)
 
     dw.packet_module = &peertopeer_module;
 
+    if( role == NODE3){
+        dw.ranging_module  = &passive_ranging_module;
+    }
+
     dw1000_init(&dw);
 
     dw1000_print_config(&dw);
@@ -199,6 +204,7 @@ int main(void)
        //set_twowayranging_callback(default_cb);
     }
     else if( role == NODE3){
+        dw1000_disable_filtering(dw.hal);
       //  dw1000_set_antenna_delay(&default_dw1000_hal, 0);
     }
 
@@ -239,8 +245,7 @@ int main(void)
 
 
         if(role == NODE1 ||
-           role == NODE2 ||
-           role == NODE3
+           role == NODE2
            ){
 
             dst.u16 = 0;

@@ -291,7 +291,14 @@ static void usb_event(USBDriver *usbp, usbevent_t event) {
     }
     return;
 }
+static void sof_handler(USBDriver *usbp) {
 
+  (void)usbp;
+
+  osalSysLockFromISR();
+  sduSOFHookI(&SDU1);
+  osalSysUnlockFromISR();
+}
 /*
  * USB driver configuration.
  */
@@ -299,7 +306,7 @@ static const USBConfig usbcfg = {
     usb_event,
     get_descriptor,
     sduRequestsHook,
-    NULL
+    sof_handler
 };
 
 /*
@@ -316,7 +323,7 @@ static const SerialUSBConfig serusbcfg = {
 /* Command line related.                                                     */
 /*===========================================================================*/
 
-#define INPUT_WA_SIZE    THD_WA_SIZE(256)
+#define INPUT_WA_SIZE    THD_WA_SIZE(512)
 static THD_WORKING_AREA(myInputWorkingArea, 512);
 
 

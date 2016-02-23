@@ -238,9 +238,9 @@ int main(void)
             //dst.u16 = 4;
             chThdSleepMilliseconds(sleep*4);
         }
-        if (role == NODE3 && 0)
+        if (role == NODE3)
         {
-            //chThdSleepMilliseconds(2000);
+            chThdSleepMilliseconds(2000);
         }
 
 

@@ -1,4 +1,4 @@
-target ext rpi1:3333
+target ext 130.240.234.199:3333
 monitor reset halt
 load
 

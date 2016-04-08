@@ -421,6 +421,7 @@ static THD_FUNCTION(myUsbInput, arg) {
                             count.half_period);
                     printf("    TX_PWRUP_WARN: %u \n\r",
                             count.tx_powerup);
+                    // __asm__ __volatile__ ("bkpt #0");
                     break;
                 default:
                     break;

@@ -45,6 +45,7 @@ dw1000_driver_t dw;
 ieee_euid_t devid;
 
 typedef enum {
+    UNDEFINED,
     ANCHOR0,
     ANCHOR1,
     ANCHOR2,
@@ -78,7 +79,7 @@ rangerRole get_role(ieee_euid_t id){
         return NODE2;
     }
 
-    return NODE3;
+    return UNDEFINED;
 
 }
 
@@ -132,6 +133,7 @@ int main(void)
     start_serial();
 
     ieee_shortaddr_t ieeshortaddr;
+
     switch(role){
         case ANCHOR0:
             ieeshortaddr.u16 = 0;
@@ -156,6 +158,9 @@ int main(void)
             break;
 
     }
+    printf("shortaddr: %i\n\r", ieeshortaddr);
+
+    //ieeshortaddr.u16 = 65000;
 
     dw.state = DW1000_STATE_UNINITIALIZED;
 
@@ -184,13 +189,6 @@ int main(void)
     dw1000_init(&dw);
 
     dw1000_print_config(&dw);
-/*
-    mranging_targets_payload_t targ = {
-        .ranging_id = 1,
-        .nr_of_targets = 3,
-        .target = {0,1,2,3,4,5,6,7},
-    };
-*/
 
     uint8_t data[8] = {'a','b','c','d','e','f','g','h'};
 
@@ -210,17 +208,18 @@ int main(void)
 
     int per_loop =1;
     uint16_t sleep =100;
-    int range_delay = 100;
+    int range_delay = 1000;
+
+    dw1000_sensors_t sensors;
 
     ieee_shortaddr_t dst;
-    dw1000_sensors_t sensors;
+    dst.u16 = 65000;
     while(1)
     {
         sensors = dw1000_get_sensors(&dw);
-        printf("Sensors: temp = %f, vbat = %f\n\r",
-                sensors.temp,
-                sensors.vbat);
-        palTogglePad(GPIOC, GPIOC_LED1);
+        if(ieeshortaddr.u16 == 65001)
+            twowayranging_request(&dw, dst);
+        chThdSleepMilliseconds(1);
 
         if( role == ANCHOR0  ) {
             //dst.u16 = 4;
@@ -249,17 +248,23 @@ int main(void)
            ){
 
             dst.u16 = 0;
+            printf("ranging %i\n\r", dst.u16);
             twowayranging_request(&dw, dst);
             chThdSleepMilliseconds(range_delay);
+            /*
             dst.u16 = 1;
+            printf("ranging %i\n\r", dst.u16);
             twowayranging_request(&dw, dst);
             chThdSleepMilliseconds(range_delay);
             dst.u16 = 2;
+            printf("ranging %i\n\r", dst.u16);
             twowayranging_request(&dw, dst);
             chThdSleepMilliseconds(range_delay);
             dst.u16 = 3;
+            printf("ranging %i\n\r", dst.u16);
             twowayranging_request(&dw, dst);
             chThdSleepMilliseconds(range_delay);
+            */
 
             //peertopeer_send(&dw, dst, &data, 8);
             //peertopeer_controlled_send(&dw, dst, 5,(uint8_t *)&data, 8);
@@ -267,11 +272,11 @@ int main(void)
 
         else
         {
-            chThdSleepMilliseconds(100);
+            //chThdSleepMilliseconds(100);
             //dw1000_receive(&dw);
         }
 
-        if (per_loop % 100 == 0)
+        if (per_loop % 500 == 0)
         {
             dw1000_trx_off(&default_dw1000_hal);
             dw1000_softreset_rx(&default_dw1000_hal);
@@ -280,21 +285,7 @@ int main(void)
             per_loop = 0;
 
         }
-        //chThdSleepMilliseconds(1000);
-        /*
-        if (per_loop % 5 == 0 && per_loop != 0)
-        {
-            chThdSleepMilliseconds(1000);
-            dw1000_print_config(&dw);
-            chThdSleepMilliseconds(10);
-            dw1000_sleep(&dw);
-            chThdSleepMilliseconds(5000);
-            dw1000_wakeup(&dw);
-            chThdSleepMilliseconds(10);
-            dw1000_print_config(&dw);
-            chThdSleepMilliseconds(10);
-        }
-        */
+
         per_loop++;
     }
 }

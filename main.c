@@ -78,6 +78,10 @@ rangerRole get_role(ieee_euid_t id){
         //ok node for test
         return NODE2;
     }
+    if(id.u64 == 0xffffe7bc553980d8){
+        //ok node for test
+        return NODE2;
+    }
 
     return UNDEFINED;
 
@@ -114,8 +118,9 @@ int main(void)
 
     // enable usb
     usbstartup(&dw);
-
     get_euid();
+
+
 
     //enable debug print thread
     vInitDebugPrint((BaseSequentialStream *) &SDU1);
@@ -169,7 +174,7 @@ int main(void)
     config.shortaddr = ieeshortaddr;
 
     dw1000_generate_recommended_conf(
-            DW1000_DATARATE_110,
+            DW1000_DATARATE_850,
             DW1000_CHANNEL_2,
             devid,
             &config);
@@ -182,7 +187,7 @@ int main(void)
 
     dw.packet_module = &peertopeer_module;
 
-    if( role == NODE3){
+    if( role == UNDEFINED){
         dw.ranging_module  = &passive_ranging_module;
     }
 
@@ -201,14 +206,14 @@ int main(void)
     {
        //set_twowayranging_callback(default_cb);
     }
-    else if( role == NODE3){
+    else if( role == UNDEFINED){
         dw1000_disable_filtering(dw.hal);
       //  dw1000_set_antenna_delay(&default_dw1000_hal, 0);
     }
 
     int per_loop =1;
     uint16_t sleep =100;
-    int range_delay = 1000;
+    int range_delay = 10;
 
     dw1000_sensors_t sensors;
 
@@ -251,7 +256,6 @@ int main(void)
             printf("ranging %i\n\r", dst.u16);
             twowayranging_request(&dw, dst);
             chThdSleepMilliseconds(range_delay);
-            /*
             dst.u16 = 1;
             printf("ranging %i\n\r", dst.u16);
             twowayranging_request(&dw, dst);
@@ -264,6 +268,7 @@ int main(void)
             printf("ranging %i\n\r", dst.u16);
             twowayranging_request(&dw, dst);
             chThdSleepMilliseconds(range_delay);
+            /*
             */
 
             //peertopeer_send(&dw, dst, &data, 8);
@@ -283,7 +288,6 @@ int main(void)
             dw1000_receive(&dw,0,0);
             //dw1000_get_event_counters(&default_dw1000_hal);
             per_loop = 0;
-
         }
 
         per_loop++;
